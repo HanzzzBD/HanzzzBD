@@ -35,6 +35,69 @@ I mainly work on web development, backend systems, mobile applications, and depl
 
 ---
 
+### 🛠️ Tech Stack
+
+**Languages**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=ts,js,python,php,cs,html,css" alt="Programming languages" />
+</p>
+
+**Frontend Development**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=react,vite,tailwind" alt="Frontend technologies" />
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/GSAP-0AE448?style=for-the-badge&logo=greensock&logoColor=white" alt="GSAP" />
+</p>
+
+**Mobile Development**
+
+<p>
+  <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Native" />
+  <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" alt="Expo" />
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android" />
+</p>
+
+**Backend Development**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=nodejs,express,laravel" alt="Backend technologies" />
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/REST_API-005571?style=for-the-badge" alt="REST API" />
+  <img src="https://img.shields.io/badge/BullMQ-E34F26?style=for-the-badge" alt="BullMQ" />
+</p>
+
+**Database & Cache**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=mysql,postgres,redis,prisma" alt="Database technologies" />
+</p>
+
+**DevOps & Infrastructure**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=docker,nginx,linux,githubactions,bash" alt="DevOps and infrastructure" />
+</p>
+
+**Development Tools**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=git,github,vscode,pnpm" alt="Development tools" />
+</p>
+
+**Game & 3D Development**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=unity,blender" alt="Game and 3D development tools" />
+</p>
+
+---
+
 ### 💻 What I Enjoy Building
 
 - 🌐 **Web Applications** — Responsive interfaces, modern frontend experiences, and production-ready full-stack applications.
