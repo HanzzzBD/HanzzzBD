@@ -8,6 +8,7 @@ I mainly work on web development and backend systems, while continuously learnin
 
 - 🔭 Currently building web applications and software systems
 - 🌱 Exploring AI/ML, backend engineering, and game development
+- 🥈 2nd Place — SATUCREANOVA 2026, Web Development — Nawasena
 - 🏆 3rd Place — TECHNOVA 2026
 - 🏆 3rd Place — INOVENTURE 2025
 - 🎮 Interested in games, anime, and creative technology
@@ -71,10 +72,11 @@ I mainly work on web development and backend systems, while continuously learnin
 
 ### 🏆 Achievements
 
-| Competition | Achievement |
-|:--|:--|
-| TECHNOVA 2026 | 🥉 3rd Place — Web Transparansi MBG |
-| INOVENTURE 2025 | 🥉 3rd Place — School Website |
+| Competition | Category | Achievement | Project |
+| --- | --- | --- | --- |
+| SATUCREANOVA 2026 | Web Development | 🥈 **2nd Place** | **Nawasena** |
+| TECHNOVA 2026 | Web Development | 🥉 **3rd Place** | Web Transparansi MBG |
+| INOVENTURE 2025 | Web Development | 🥉 **3rd Place** | School Website |
 
 ---
 
