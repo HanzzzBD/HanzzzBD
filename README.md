@@ -1,17 +1,18 @@
 # Hey, I'm Hadrian Rangga Ardiantara 👋
 
-### Software Developer · AI/ML Enthusiast · Game Developer
+### Software Developer · Backend Engineer · AI/ML Enthusiast
 
-I'm a software development student from Bandung, Indonesia, who enjoys building useful applications, exploring new technologies, and turning ideas into real projects.
+I'm a software development student from Bandung, Indonesia, who enjoys building real-world applications, exploring new technologies, and turning ideas into working software.
 
-I mainly work on web development and backend systems, while continuously learning about artificial intelligence, machine learning, and game development.
+I mainly work on web development, backend systems, mobile applications, and deployment, while continuously exploring artificial intelligence, machine learning, game development, and interactive technologies.
 
-- 🔭 Currently building web applications and software systems
-- 🌱 Exploring AI/ML, backend engineering, and game development
-- 🥈 2nd Place — SATUCREANOVA 2026, Web Development — Nawasena
-- 🏆 3rd Place — TECHNOVA 2026
-- 🏆 3rd Place — INOVENTURE 2025
-- 🎮 Interested in games, anime, and creative technology
+- 🔭 Currently building web applications, backend systems, and mobile applications
+- 🌱 Exploring backend engineering, AI/ML, DevOps, and system architecture
+- 🥈 2nd Place — SATUCREANOVA 2026, Web Development — **Nawasena**
+- 🥉 3rd Place — TECHNOVA 2026
+- 🥉 3rd Place — INOVENTURE 2025
+- 🚀 Interested in building software that solves real-world problems
+- 🎮 Also interested in games, anime, and creative technology
 - 💻 Motto: *Learn hard now, relax later.*
 
 ---
@@ -22,9 +23,11 @@ I mainly work on web development and backend systems, while continuously learnin
   <a href="https://portofolio-90.vercel.app/">
     <img src="https://img.shields.io/badge/Portfolio-Visit_My_Website-111827?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio" />
   </a>
+
   <a href="https://github.com/HanzzzBD">
     <img src="https://img.shields.io/badge/GitHub-HanzzzBD-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
   </a>
+
   <a href="https://www.linkedin.com/in/hadrian-rangga/">
     <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
@@ -37,36 +40,134 @@ I mainly work on web development and backend systems, while continuously learnin
 **Languages**
 
 <p>
-  <img src="https://skillicons.dev/icons?i=js,python,php,cs,html,css" alt="Programming languages" />
+  <img src="https://skillicons.dev/icons?i=ts,js,python,php,cs,html,css" alt="Programming languages" />
 </p>
 
 **Frontend Development**
 
 <p>
-  <img src="https://skillicons.dev/icons?i=react,vite,tailwind,gsap" alt="Frontend technologies" />
+  <img src="https://skillicons.dev/icons?i=react,vite,tailwind" alt="Frontend technologies" />
 </p>
 
-**Backend & Database**
-
 <p>
-  <img src="https://skillicons.dev/icons?i=nodejs,express,laravel,mysql,postgres,redis,prisma" alt="Backend and database technologies" />
+  <img src="https://img.shields.io/badge/GSAP-0AE448?style=for-the-badge&logo=greensock&logoColor=white" alt="GSAP" />
 </p>
 
-**Tools & Game Development**
+**Mobile Development**
 
 <p>
-  <img src="https://skillicons.dev/icons?i=git,github,docker,vscode,unity,blender" alt="Development tools" />
+  <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Native" />
+  <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" alt="Expo" />
+  <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Android" />
+</p>
+
+**Backend Development**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=nodejs,express,laravel" alt="Backend technologies" />
+</p>
+
+<p>
+  <img src="https://img.shields.io/badge/REST_API-005571?style=for-the-badge" alt="REST API" />
+  <img src="https://img.shields.io/badge/BullMQ-E34F26?style=for-the-badge" alt="BullMQ" />
+</p>
+
+**Database & Cache**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=mysql,postgres,redis,prisma" alt="Database technologies" />
+</p>
+
+**DevOps & Infrastructure**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=docker,nginx,linux,githubactions,bash" alt="DevOps and infrastructure" />
+</p>
+
+**Development Tools**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=git,github,vscode,pnpm" alt="Development tools" />
+</p>
+
+**Game & 3D Development**
+
+<p>
+  <img src="https://skillicons.dev/icons?i=unity,blender" alt="Game and 3D development tools" />
 </p>
 
 ---
 
-### 🚀 What I Enjoy Building
+### 🚀 Featured Projects
 
-- 🌐 **Web Applications** — Responsive interfaces, modern frontend experiences, and full-stack applications.
-- ⚙️ **Backend Systems** — REST APIs, authentication, role-based access control, database design, and system architecture.
-- 🤖 **AI & Machine Learning** — Exploring intelligent systems, computer vision, and practical ML applications.
-- 🎮 **Game Development** — Experimenting with Unity, 3D assets, and interactive experiences.
-- ♿ **Accessibility Technology** — Exploring software that makes digital experiences more accessible to everyone.
+#### ♿ Nawasena
+
+A web and mobile software project focused on building a practical and accessible digital platform.
+
+- 🥈 **2nd Place — SATUCREANOVA 2026, Web Development**
+- 🌐 Web application development
+- 📱 Mobile application with React Native and Expo
+- ⚙️ Backend API development
+- 🔐 Authentication and account management
+- 📲 Device management and mobile integration
+- 🚀 Production-oriented application development
+
+---
+
+#### 🏫 SMKN4BDG Portal
+
+A full-stack school portal built to provide digital information and services for SMKN 4 Bandung.
+
+- ⚛️ Modern frontend development
+- ⚙️ Node.js backend services
+- 🗄️ PostgreSQL and Redis
+- ⚡ In-memory caching and backend optimization
+- 🐳 Docker-based deployment
+- 🌐 Nginx and VPS deployment
+- 📈 Load and stress testing
+- 🚀 Production deployment and optimization
+
+---
+
+#### 🧩 SIGM4
+
+A modular information and resource management system built with production-oriented backend architecture.
+
+- 🔐 Authentication and Role-Based Access Control
+- ✅ Multi-step approval workflows
+- 📅 Booking and resource management
+- ⚙️ Background workers with BullMQ
+- 🗄️ PostgreSQL and Redis
+- 🐳 Docker infrastructure
+- 🔒 Security testing
+- 🔄 CI/CD with GitHub Actions
+- 🧪 Automated and integration testing
+
+---
+
+#### 🗺️ SMKN 4 Bandung Indoor Navigation
+
+An indoor navigation system designed to help users navigate rooms and locations inside the school.
+
+- 🗺️ Interactive SVG-based school map
+- 🧭 Route calculation using A* pathfinding
+- 📍 GPS-based position tracking
+- 📌 Position snapping to navigation paths
+- 🔄 Route recalculation when the user moves away from the path
+- 🏫 Room and floor mapping
+
+---
+
+### 💻 What I Enjoy Building
+
+- 🌐 **Web Applications** — Responsive interfaces, modern frontend experiences, and production-ready full-stack applications.
+- ⚙️ **Backend Systems** — REST APIs, authentication, RBAC, approval workflows, caching, background workers, databases, and system architecture.
+- 📱 **Mobile Applications** — Building mobile experiences with React Native, Expo, Android integration, authentication, and backend APIs.
+- 🚀 **Deployment & Infrastructure** — Docker, Nginx, Linux servers, VPS deployment, CI/CD, monitoring, and performance optimization.
+- 🤖 **AI & Machine Learning** — Exploring intelligent systems, computer vision, and practical machine learning applications.
+- 🗺️ **Navigation & Interactive Systems** — Experimenting with indoor navigation, GPS positioning, SVG maps, and pathfinding algorithms.
+- 🎮 **Game Development** — Experimenting with Unity, Blender, 3D assets, and interactive experiences.
+- ♿ **Accessibility Technology** — Exploring and building software that makes digital experiences more accessible to everyone.
 
 ---
 
@@ -95,9 +196,11 @@ I mainly work on web development and backend systems, while continuously learnin
 
 ### 💡 A Little More About Me
 
-I believe the best way to learn programming is to build things, solve problems, experiment with ideas, and learn from mistakes.
+I believe the best way to learn programming is to build things, solve real problems, experiment with ideas, and learn from mistakes.
 
-I'm always looking for opportunities to improve my skills, collaborate with other developers, and create projects that have a real purpose.
+I enjoy working on projects that go beyond writing code — from designing backend architecture and databases to testing performance, deploying applications, and making sure they work in real environments.
+
+I'm always looking for opportunities to improve my skills, collaborate with other developers, explore new technologies, and create projects that have a real purpose.
 
 **Keep learning. Keep building. Keep improving.** 🚀
 
