@@ -217,3 +217,23 @@ Markers are matched on the default-branch tree of eligible repos. Vendored paths
 | Utility | Emblem attunement | 500 each |
 | Utility | 6th build slot | 1,500 (once) |
 | Season Vault | Season-exclusive frame (peak tier gate) | 2,500 |
+
+## 10. Engine enforcement and clarifications (Phase 06)
+
+The values in §1–§3 are implemented in `legends/src/engine/rules.ts` (ruleset `1.0.0`). `legends/test/engine/tables.test.ts` **parses this document** and checks every level row, every rank row and division threshold, the trial table, the battle table, the soft-reset table, the season-end table and the season calendar against the engine. Changing a value here without changing the ruleset (or the reverse) fails the build.
+
+The engine applies these clarifications where the approved documents leave the behaviour open. None of them change a value in this document; items marked **Owner decision** are recorded as open questions in `docs/product/decision-register.md` (PD-20, PD-21).
+
+| # | Topic | Engine behaviour |
+| --- | --- | --- |
+| C-1 | Award that crosses a daily cap | Receives the remaining allowance (for example, the third 60-EXP merge on a day when 120 of 150 is used earns 30) and is marked `capped`; later awards that day earn 0. This matches the economy model (`min(sum, cap)`). The PRD wording ("above the cap … zero-EXP entry") is ambiguous for the crossing award. **Owner decision PD-20.** |
+| C-2 | Battle BP on overflow star days | Stars beyond 5 per week are `overflow` (0 stars), but the day's battle BP is still paid, subject to the 700 BP weekly cap. |
+| C-3 | First-time tier BP after a soft reset | Paid only for tiers **above** the season's starting tier (the starting tier was given, not reached). |
+| C-4 | Season with no activity | Closes with peak Initiate and pays the Initiate season-end reward (100 BP), as the table states. **Owner decision PD-21** (whether empty seasons should pay). |
+| C-5 | Micro-flood "cap hit" day | A day with ≥ 10 qualifying commits in that repo (the count that reaches the 75 EXP daily maximum). |
+| C-6 | Clockwork window | The ±2-minute window is chosen to maximise the number of days; commits whose message matched an automation pattern count as inside the window. |
+| C-7 | Review EXP | Requires a human PR author (not a bot), consistent with the peer-review objective (GDD §1.4); the 30-day account age applies to objectives only. |
+| C-8 | "Issue opened" settling | Awarded once the issue is ≥ 24 h old, so the "closed as not planned within 24 h" exclusion can be applied without revoking anything. |
+| C-9 | Duplicate contributions across repositories | The same public commit SHA in several repos counts once (earliest). Private SHAs are pseudonymised per repo and cannot be compared. |
+| C-10 | Private aggregate EXP | Awarded on each increase of the cumulative private count per contribution window; decreases are ignored; a large first observation is limited by the 200 EXP weekly cap. |
+| C-11 | Timestamps | Invalid if unparseable, before 2008, or (commits) more than 24 h after first observation, or (other facts) more than 24 h after the run. Invalid events earn nothing and are reported. |

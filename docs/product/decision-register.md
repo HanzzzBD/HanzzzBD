@@ -29,6 +29,8 @@
 | PD-17 | Rank protection package (trials, weekly cap, −3 reset) | Decided |
 | PD-18 | Commit EXP curve and automation detection | Decided |
 | PD-19 | Emblem model: seven domain emblems | Decided |
+| PD-20 | Award that crosses a daily cap: partial or zero | Open (engine uses partial) |
+| PD-21 | Season-end reward for a season with no activity | Open (engine pays 100 BP) |
 
 ---
 
@@ -165,3 +167,16 @@
 - **Options:** domain emblems from verified evidence · domain emblems with playstyle talents · self-chosen cosmetic emblems.
 - **Decision (2026-10-20):** **seven domain emblems** (Frontend, Backend, Full-stack, AI/ML, DevOps, Database, Open Source), levelled from verified domain evidence; one active at a time, with a BP bonus and a specialty quest. Replaces the PRD's activity emblems.
 - **Reasoning:** matches the owner's brief while keeping the mechanics evidence-based.
+
+### PD-20 — Award that crosses a daily cap (Open)
+
+- **Context:** PRD §4.3 says an activity "above the cap" gets a zero-EXP entry; the economy model (GDD economy §4) computed `min(sum, cap)`, which gives the crossing award the remainder.
+- **Options:** (a) partial remainder (current engine, matches the simulated numbers) · (b) all-or-nothing (the crossing award gets 0).
+- **Recommended default:** (a), because the published balancing numbers were produced with it.
+- **Impact:** at most one partial award per capped rule per day (the difference is below one award: < 60 EXP for PRs, < 50 for releases, < 25 for reviews, < 15 for issues); it only affects stars when it moves the day across a battle threshold.
+
+### PD-21 — Season-end reward for an empty season (Open)
+
+- **Context:** tables §2.3 pay 100 BP for an Initiate peak. A season with no activity at all also ends at Initiate.
+- **Options:** (a) pay 100 BP as written (current engine) · (b) require at least one battle in the season.
+- **Recommended default:** (b), so BP is not granted for inactivity, but this changes an approved table and needs the owner.
