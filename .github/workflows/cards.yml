@@ -1,0 +1,52 @@
+# Draws the Mobile Legends-style cards the README links to: views, Spotify, Land of Dawn, rank and match history.
+# The SVGs are pushed to the `output` branch, which the README links to.
+name: Profile cards
+
+on:
+  schedule:
+    - cron: "0 * * * *" # hourly, so the views card stays close to the live count
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Rank card
+        run: node .github/scripts/rank-card.mjs ${{ github.repository_owner }} dist/rank.svg
+
+      - name: Match history card
+        run: node .github/scripts/career-card.mjs ${{ github.repository_owner }} dist/career.svg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Profile views
+        run: node .github/scripts/views-card.mjs HanzzzBD.hanzzzbd dist/views.svg
+
+      - name: Spotify
+        run: node .github/scripts/spotify-card.mjs dist/spotify.svg
+        env:
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+
+      - name: Land of Dawn
+        run: node .github/scripts/range-card.mjs ${{ github.repository_owner }} dist/range.svg
+
+      - uses: crazy-max/ghaction-github-pages@v4
+        with:
+          target_branch: output
+          build_dir: dist
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
