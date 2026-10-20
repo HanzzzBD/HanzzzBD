@@ -2,14 +2,14 @@
 
 - **Date:** 2026-10-20
 - **Status key:** `Open` (awaiting owner), `Proposed` (recommended default, adopt unless the owner objects), `Decided`.
-- Decisions D-01 to D-04 materially affect architecture and need the owner's confirmation before implementation starts.
+- Decisions D-01 to D-04 materially affect the architecture. The owner confirmed the recommended default for all four on 2026-10-20.
 
 | ID | Decision | Status |
 | --- | --- | --- |
-| D-01 | Product scope: single-user profile vs. multi-user platform | Open |
-| D-02 | Include private repository data? | Open |
-| D-03 | Naming and art: MLBB-branded vs. original "inspired by" | Open |
-| D-04 | Progress model: stateless recompute vs. persisted ledger | Open |
+| D-01 | Product scope: single-user profile vs. multi-user platform | Decided |
+| D-02 | Include private repository data? | Decided |
+| D-03 | Naming and art: MLBB-branded vs. original "inspired by" | Decided |
+| D-04 | Progress model: stateless recompute vs. persisted ledger | Decided |
 | D-05 | Where generated assets and state live | Proposed |
 | D-06 | Toolchain / language | Proposed |
 | D-07 | Update cadence | Proposed |
@@ -33,6 +33,7 @@
   3. Multi-user platform (web app, OAuth, database, leaderboards).
 - **Trade-offs:** (1) is the fastest and needs no hosting, but it has no real leaderboards or squads. (2) adds config and packaging work but stays serverless. (3) unlocks every mechanic but adds hosting, auth, privacy and ops.
 - **Recommended default:** (1) now, built as (2)-ready: a config-driven engine with no hard-coded username.
+- **Decision (2026-10-20):** single-user, reusable. Static Actions generator, config-driven, no hosting.
 - **Reasoning:** the repository is a personal profile with no infrastructure. Shipping visible value early reduces risk, and a pure scoring library keeps (3) open.
 
 ### D-02 — Private repository data
@@ -43,6 +44,7 @@
   3. Fine-grained PAT with read-only access to selected private repos, rendered **aggregated only**.
 - **Trade-offs:** (1) and (2) need no secret but under-count private work. (3) is complete, but needs PAT creation and rotation and adds leak risk on a public profile.
 - **Recommended default:** (2) for MVP; (3) as an opt-in later.
+- **Decision (2026-10-20):** option (2). Public data plus the anonymous private contribution count; no PAT.
 - **Reasoning:** safe by default, no secrets to manage at first, and still credits private work in totals if the owner enabled private contributions on their profile.
 
 ### D-03 — Naming and art
@@ -53,6 +55,7 @@
   3. Generic names (Bronze/Silver/Gold).
 - **Trade-offs:** (1) is the most recognisable but is trademark and copyright risk on a public page. (2) needs naming and design effort and is safe and distinctive. (3) is safe but bland.
 - **Recommended default:** (2).
+- **Decision (2026-10-20):** option (2). Original names and art with MOBA-style mechanics.
 - **Reasoning:** keeps the theme without IP exposure. MLBB-style structures (tiered ranks with stars, roles, emblems) are mechanics, not protected names.
 
 ### D-04 — Progress model
@@ -62,6 +65,7 @@
   2. Ledger: persist awarded items keyed by stable IDs; derived values come from the ledger.
 - **Trade-offs:** (1) is simple, but progress can drop when data leaves API windows or repositories are deleted, and quest/season history is impossible. (2) gives monotonic, auditable progress, season snapshots and deduplication, at the cost of a state file and migration care.
 - **Recommended default:** (2), with a rebuild-from-API command for recovery.
+- **Decision (2026-10-20):** option (2). Persisted ledger with idempotent awards.
 - **Reasoning:** seasons, quests, battle history and deduplication all need state.
 
 ### D-05 — Location of generated assets and state
