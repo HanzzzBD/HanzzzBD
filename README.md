@@ -2,8 +2,9 @@
 
 <img src="./assets/hero.svg" width="100%" alt="Hero select: Hadrian Rangga Ardiantara, backend engineer, squad SMKN 4 Bandung, server Indonesia" />
 
-<a href="https://www.linkedin.com/in/hadrian-rangga/"><img src="./assets/linkedin.svg" height="44" alt="LinkedIn" /></a>
-<a href="https://hadrian-rangga-a.code-xpert.my.id"><img src="./assets/portfolio.svg" height="44" alt="Portfolio" /></a>
+<a href="https://www.linkedin.com/in/hadrian-rangga-ardiantara-4042b1332/" target="_blank" rel="noopener noreferrer"><img src="./assets/linkedin.svg" height="44" alt="LinkedIn" /></a>
+<a href="https://hadrian-rangga-a.code-xpert.my.id" target="_blank" rel="noopener noreferrer"><img src="./assets/portfolio.svg" height="44" alt="Portfolio" /></a>
+<a href="https://www.instagram.com/_constboy/" target="_blank" rel="noopener noreferrer"><img src="./assets/instagram.svg" height="44" alt="Instagram" /></a>
 <img src="https://raw.githubusercontent.com/HanzzzBD/HanzzzBD/output/views.svg" height="44" alt="Profile views" />
 <img src="https://visitor-badge.laobi.icu/badge?page_id=HanzzzBD.hanzzzbd" width="1" height="1" alt="" />
 

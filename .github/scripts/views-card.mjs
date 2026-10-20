@@ -1,4 +1,4 @@
-// Profile views as a Mobile Legends-style button, matching the LinkedIn/Portfolio buttons.
+// Profile views as a Mobile Legends-style button, matching the LinkedIn/Portfolio/Instagram buttons.
 // visitor-badge.laobi.icu still does the counting: the README keeps its badge as a 1px image, and
 // this script reads the total with query_only=true, which does not add a view.
 // Run hourly by the profile workflow: node .github/scripts/views-card.mjs <page_id> <out.svg>
@@ -20,7 +20,7 @@ export async function fetchViews(pageId) {
 
 export async function renderViewsCard(views) {
   const W = 240, H = 60;
-  const label = "SPECTATORS // 03";
+  const label = "SPECTATORS // 04";
   const value = views.toLocaleString("en-US");
   const display = await fontFace("Anton", 400, uniq([value, "VIEWS"]));
   const h6 = await fontFace("Rajdhani", 600, uniq([label, "LIVE"]));

@@ -1,5 +1,5 @@
 // Generates the static animated SVGs for the GitHub profile README (Mobile Legends theme): hero select,
-// chat buttons, skills, item shop, battle report, achievements, divider and footer. The live cards
+// chat buttons (LinkedIn, Portfolio, Instagram), skills, item shop, battle report, achievements, divider and footer. The live cards
 // (Land of Dawn, match history, rank, views, Spotify) are drawn hourly by .github/scripts in the workflow.
 // Official Mobile Legends: Bang Bang assets (via the Mobile Legends Fandom wiki) live in tools/mlbb and
 // .github/mlbb and are used as fan content; the README carries the notice.
@@ -552,7 +552,7 @@ ${reducedMotion(".v,.fade{opacity:1}.ln{transform:none}.mvp{opacity:1;transform:
 </svg>`;
 }
 
-// ---------- chat buttons (LinkedIn, Portfolio) ----------
+// ---------- chat buttons (LinkedIn, Portfolio, Instagram) ----------
 async function chatButton(name, n, slug) {
   const W = 240, H = 60;
   const label = `CHAT // 0${n}`;
@@ -600,6 +600,7 @@ const built = {
   footer: await footer(),
   linkedin: await chatButton("LINKEDIN", 1, "linkedin"),
   portfolio: await chatButton("PORTFOLIO", 2, "vercel"),
+  instagram: await chatButton("INSTAGRAM", 3, "instagram"),
 };
 for (const [name, svg] of Object.entries(built)) {
   await writeFile(join(OUT, `${name}.svg`), svg);
