@@ -1,0 +1,94 @@
+{
+  "data": {
+    "repository": {
+      "defaultBranchRef": {
+        "name": "main",
+        "target": {
+          "history": {
+            "pageInfo": {
+              "hasNextPage": false,
+              "endCursor": "cursor-2"
+            },
+            "nodes": [
+              {
+                "oid": "e4666a670f042877c67a84473a71675ee0950a08",
+                "authoredDate": "2026-10-16T17:17:00Z",
+                "committedDate": "2026-10-16T17:17:00Z",
+                "additions": 3,
+                "deletions": 1,
+                "changedFilesIfAvailable": 2,
+                "parents": {
+                  "totalCount": 1
+                },
+                "message": "chore: auto-update stats [skip ci]",
+                "authors": {
+                  "totalCount": 1,
+                  "nodes": [
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "oid": "8dc29fc58c0bd99068c2e5c752aa61521d4f11ce",
+                "authoredDate": "2026-10-16T08:00:00Z",
+                "committedDate": "2026-10-16T08:00:00Z",
+                "additions": 120,
+                "deletions": 10,
+                "changedFilesIfAvailable": 2,
+                "parents": {
+                  "totalCount": 1
+                },
+                "message": "Feat: Add   battle engine",
+                "authors": {
+                  "totalCount": 1,
+                  "nodes": [
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "oid": "555c3f9218ba41a596519c8f01708a0ec9ef821b",
+                "authoredDate": "2026-10-16T09:00:00Z",
+                "committedDate": "2026-10-16T09:00:00Z",
+                "additions": 1,
+                "deletions": 1,
+                "changedFilesIfAvailable": null,
+                "parents": {
+                  "totalCount": 1
+                },
+                "message": "fix: typo",
+                "authors": {
+                  "totalCount": 1,
+                  "nodes": [
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

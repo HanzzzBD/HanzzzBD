@@ -1,0 +1,44 @@
+{
+  "data": {
+    "repository": {
+      "defaultBranchRef": {
+        "name": "main",
+        "target": {
+          "history": {
+            "pageInfo": {
+              "hasNextPage": false,
+              "endCursor": null
+            },
+            "nodes": [
+              {
+                "oid": "00728e897b4f6f070b74f2bea6560a6daf64d075",
+                "authoredDate": "2026-10-10T02:00:00Z",
+                "committedDate": "2026-10-10T02:00:00Z",
+                "additions": 5,
+                "deletions": 2,
+                "changedFilesIfAvailable": 2,
+                "parents": {
+                  "totalCount": 1
+                },
+                "message": "docs: improve readme",
+                "authors": {
+                  "totalCount": 1,
+                  "nodes": [
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

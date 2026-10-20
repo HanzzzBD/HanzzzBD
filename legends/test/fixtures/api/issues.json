@@ -1,0 +1,70 @@
+{
+  "data": {
+    "user": {
+      "contributionsCollection": {
+        "issueContributions": {
+          "pageInfo": {
+            "hasNextPage": false,
+            "endCursor": null
+          },
+          "nodes": [
+            {
+              "occurredAt": "2026-10-12T00:00:00Z",
+              "issue": {
+                "id": "I_alpha1",
+                "number": 11,
+                "state": "CLOSED",
+                "stateReason": "COMPLETED",
+                "createdAt": "2026-10-12T00:00:00Z",
+                "closedAt": "2026-10-16T00:00:00Z",
+                "author": {
+                  "__typename": "User",
+                  "login": "sample-player",
+                  "databaseId": 1000001,
+                  "createdAt": "2022-01-10T08:00:00Z"
+                },
+                "repository": {
+                  "databaseId": 2000001,
+                  "name": "alpha",
+                  "owner": {
+                    "login": "sample-player"
+                  },
+                  "isPrivate": false,
+                  "isFork": false,
+                  "isArchived": false
+                }
+              }
+            },
+            {
+              "occurredAt": "2026-10-12T00:00:00Z",
+              "issue": {
+                "id": "I_lib1",
+                "number": 90,
+                "state": "OPEN",
+                "stateReason": null,
+                "createdAt": "2026-10-12T00:00:00Z",
+                "closedAt": null,
+                "author": {
+                  "__typename": "User",
+                  "login": "sample-player",
+                  "databaseId": 1000001,
+                  "createdAt": "2022-01-10T08:00:00Z"
+                },
+                "repository": {
+                  "databaseId": 2000003,
+                  "name": "library",
+                  "owner": {
+                    "login": "other-org"
+                  },
+                  "isPrivate": false,
+                  "isFork": false,
+                  "isArchived": false
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

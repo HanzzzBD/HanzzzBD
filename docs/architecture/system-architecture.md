@@ -104,7 +104,7 @@ Dependency direction is strictly downward. `core` depends on nothing. Pure modul
 | `core` | pure | Shared types, `Clock`, `PlayerDay`/`IsoWeek`/`SeasonId` maths in Asia/Jakarta, stable hashing (SHA-256), canonical JSON, `Result<T,E>`, error taxonomy | `toPlayerDay(instant, tz)`, `canonicalJson(x)`, `stableHash(...)` |
 | `config` | pure + parse | Load and validate `player.config.yml` (zod). Unknown fields are errors. No fields that set progress (AC-CORE-14). | `loadConfig(text): Result<PlayerConfig, ConfigError[]>` |
 | `ruleset` | pure + parse | Load and validate `rules/v<n>/*`; expose typed rule tables; version id | `loadRuleset(dir): Ruleset` |
-| `github` | I/O | Authenticated client (Octokit core + retry + throttling), GraphQL and REST helpers, rate-limit budget, request log (no bodies) | `GitHubClient.graphql<T>(q, vars)`, `.rest(route, params)`, `.budget()` |
+| `github` | I/O | In-repo fetch client (ADR-0014): REST and GraphQL helpers, capped pagination, bounded retry, rate-limit handling, request budget | `GitHubClient.rest(route, params, schema)`, `.paginateRest(...)`, `.graphql(op, query, vars, schema)`, `.paginateGraphql(fetchPage, maxPages)` |
 | `collect` | I/O | Source collectors producing **raw records** per source, with completeness status and watermarks | `Collector.collect(ctx): Promise<SourceResult>` |
 | `normalize` | pure | Raw → L1 `Event` (stable keys, qualification flags, fingerprints, automation signals, redaction); merges with the stored event set and assigns `firstSeenAt` | `normalize(raw, known, runAt): Event[]` |
 | `store` | I/O | Read and write `legends/state/**` (NDJSON partitions, snapshots, meta, checksums); migrations | `StateStore.load()`, `.write(changes)` |
@@ -151,7 +151,7 @@ Collectors run in a fixed order (`repos` first, since others need the repo list)
 | Trees (P1) | REST | `GET /repos/{o}/{r}/git/trees/{sha}?recursive=1` | Only when the default-branch head SHA changed; weekly maximum |
 | Private aggregate | GraphQL | `restrictedContributionsCount` delta | Every run |
 
-**Client behaviour:** `@octokit/plugin-throttling` (respects `Retry-After`, secondary limits), `@octokit/plugin-retry` (5xx, network; max 3, exponential backoff), sequential requests, `User-Agent: github-legends/<version>`, a request budget per run (default stop at 80% of the remaining primary limit), and conditional requests (ETag) for languages and trees.
+**Client behaviour (implemented, ADR-0014):** respects `Retry-After` and primary-limit resets up to a maximum wait; retries 5xx, network errors and timeouts (max 3, bounded exponential backoff with jitter); sequential requests; `User-Agent: github-legends/<version>`; a per-run request budget that counts retries and stops before a rate-limit reserve; explicit page caps; same-origin pagination links only. Conditional requests (ETag) are planned and not yet implemented. Details: `docs/implementation/data-collection.md`.
 
 **Rate budget (estimate, single user, about 30 repos):** daily incremental ≈ 60–150 requests; backfill ≈ 1 GraphQL call per repo per 100 commits + yearly windows. Backfill is **resumable** (`data-flow.md` §5), so even a large history fits within the `GITHUB_TOKEN` limits across a few runs.
 

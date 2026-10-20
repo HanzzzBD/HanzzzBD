@@ -1,0 +1,9 @@
+{
+  "id": 1000001,
+  "node_id": "U_sample001",
+  "login": "sample-player",
+  "type": "User",
+  "created_at": "2022-01-10T08:00:00Z",
+  "name": "Ignored Field",
+  "email": "ignored@example.invalid"
+}

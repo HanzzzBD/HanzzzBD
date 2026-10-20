@@ -1,0 +1,19 @@
+[
+  {
+    "id": 2000005,
+    "name": "gamma",
+    "full_name": "sample-player/gamma",
+    "owner": {
+      "login": "sample-player",
+      "id": 1000001,
+      "type": "User"
+    },
+    "private": false,
+    "fork": false,
+    "archived": true,
+    "pushed_at": "2026-08-01T00:00:00Z",
+    "default_branch": "main",
+    "description": "ignored",
+    "stargazers_count": 3
+  }
+]

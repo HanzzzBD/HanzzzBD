@@ -1,0 +1,102 @@
+{
+  "data": {
+    "repository": {
+      "defaultBranchRef": {
+        "name": "main",
+        "target": {
+          "history": {
+            "pageInfo": {
+              "hasNextPage": true,
+              "endCursor": "cursor-1"
+            },
+            "nodes": [
+              {
+                "oid": "2f22765d04931a078909145ca628d2264c852d7d",
+                "authoredDate": "2026-10-15T03:00:00Z",
+                "committedDate": "2026-10-15T03:00:00Z",
+                "additions": 120,
+                "deletions": 10,
+                "changedFilesIfAvailable": 2,
+                "parents": {
+                  "totalCount": 1
+                },
+                "message": "feat: add battle engine\n\nCo-authored-by: Sample Ally <ally@example.invalid>",
+                "authors": {
+                  "totalCount": 2,
+                  "nodes": [
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    },
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-ally",
+                        "databaseId": 1000002,
+                        "createdAt": "2020-05-01T00:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "oid": "6b1f53303a732ccc8c6aae6640399827c15250e3",
+                "authoredDate": "2026-10-15T04:00:00Z",
+                "committedDate": "2026-10-15T04:00:00Z",
+                "additions": 0,
+                "deletions": 0,
+                "changedFilesIfAvailable": 2,
+                "parents": {
+                  "totalCount": 2
+                },
+                "message": "Merge branch 'dev'",
+                "authors": {
+                  "totalCount": 1,
+                  "nodes": [
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "oid": "a625406f6977d45c1391b078f4d3656e0b75bfcb",
+                "authoredDate": "2026-10-15T05:00:00Z",
+                "committedDate": "2026-10-15T05:00:00Z",
+                "additions": 0,
+                "deletions": 0,
+                "changedFilesIfAvailable": 0,
+                "parents": {
+                  "totalCount": 1
+                },
+                "message": "chore: empty",
+                "authors": {
+                  "totalCount": 1,
+                  "nodes": [
+                    {
+                      "user": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

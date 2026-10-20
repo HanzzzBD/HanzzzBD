@@ -1,6 +1,6 @@
 # ADR-0007: TypeScript on Node 24 LTS with native type stripping, pnpm and minimal dependencies
 
-- **Status:** Accepted
+- **Status:** Accepted; dependency list amended by [ADR-0014](0014-in-repo-github-client.md) (no Octokit)
 - **Date:** 2026-10-20
 
 ## Context

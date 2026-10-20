@@ -1,0 +1,169 @@
+{
+  "data": {
+    "user": {
+      "contributionsCollection": {
+        "pullRequestContributions": {
+          "pageInfo": {
+            "hasNextPage": false,
+            "endCursor": null
+          },
+          "nodes": [
+            {
+              "occurredAt": "2026-10-14T01:00:00Z",
+              "pullRequest": {
+                "id": "PR_alpha1",
+                "number": 7,
+                "state": "MERGED",
+                "merged": true,
+                "mergedAt": "2026-10-15T06:00:00Z",
+                "createdAt": "2026-10-14T01:00:00Z",
+                "author": {
+                  "__typename": "User",
+                  "login": "sample-player",
+                  "databaseId": 1000001,
+                  "createdAt": "2022-01-10T08:00:00Z"
+                },
+                "mergedBy": {
+                  "__typename": "User",
+                  "login": "sample-player",
+                  "databaseId": 1000001,
+                  "createdAt": "2022-01-10T08:00:00Z"
+                },
+                "repository": {
+                  "databaseId": 2000001,
+                  "name": "alpha",
+                  "owner": {
+                    "login": "sample-player"
+                  },
+                  "isPrivate": false,
+                  "isFork": false,
+                  "isArchived": false
+                },
+                "commits": {
+                  "totalCount": 3
+                },
+                "reviews": {
+                  "totalCount": 3,
+                  "nodes": [
+                    {
+                      "author": {
+                        "__typename": "User",
+                        "login": "sample-ally",
+                        "databaseId": 1000002,
+                        "createdAt": "2020-05-01T00:00:00Z"
+                      }
+                    },
+                    {
+                      "author": {
+                        "__typename": "Bot",
+                        "login": "dependabot[bot]",
+                        "databaseId": 49699333
+                      }
+                    },
+                    {
+                      "author": {
+                        "__typename": "User",
+                        "login": "sample-player",
+                        "databaseId": 1000001,
+                        "createdAt": "2022-01-10T08:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "occurredAt": "2026-10-14T01:00:00Z",
+              "pullRequest": {
+                "id": "PR_lib1",
+                "number": 42,
+                "state": "MERGED",
+                "merged": true,
+                "mergedAt": "2026-10-15T06:00:00Z",
+                "createdAt": "2026-10-14T01:00:00Z",
+                "author": {
+                  "__typename": "User",
+                  "login": "sample-player",
+                  "databaseId": 1000001,
+                  "createdAt": "2022-01-10T08:00:00Z"
+                },
+                "mergedBy": {
+                  "__typename": "User",
+                  "login": "sample-ally",
+                  "databaseId": 1000002,
+                  "createdAt": "2020-05-01T00:00:00Z"
+                },
+                "repository": {
+                  "databaseId": 2000003,
+                  "name": "library",
+                  "owner": {
+                    "login": "other-org"
+                  },
+                  "isPrivate": false,
+                  "isFork": false,
+                  "isArchived": false
+                },
+                "commits": {
+                  "totalCount": 3
+                },
+                "reviews": {
+                  "totalCount": 25,
+                  "nodes": [
+                    {
+                      "author": {
+                        "__typename": "User",
+                        "login": "sample-ally",
+                        "databaseId": 1000002,
+                        "createdAt": "2020-05-01T00:00:00Z"
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "occurredAt": "2026-10-14T01:00:00Z",
+              "pullRequest": {
+                "id": "PR_hidden",
+                "number": 3,
+                "state": "MERGED",
+                "merged": true,
+                "mergedAt": "2026-10-15T06:00:00Z",
+                "createdAt": "2026-10-14T01:00:00Z",
+                "author": {
+                  "__typename": "User",
+                  "login": "sample-player",
+                  "databaseId": 1000001,
+                  "createdAt": "2022-01-10T08:00:00Z"
+                },
+                "mergedBy": {
+                  "__typename": "User",
+                  "login": "sample-player",
+                  "databaseId": 1000001,
+                  "createdAt": "2022-01-10T08:00:00Z"
+                },
+                "repository": {
+                  "databaseId": 2000006,
+                  "name": "hidden-internal",
+                  "owner": {
+                    "login": "other-org"
+                  },
+                  "isPrivate": true,
+                  "isFork": false,
+                  "isArchived": false
+                },
+                "commits": {
+                  "totalCount": 3
+                },
+                "reviews": {
+                  "totalCount": 0,
+                  "nodes": []
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

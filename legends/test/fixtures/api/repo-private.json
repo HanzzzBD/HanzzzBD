@@ -1,0 +1,17 @@
+{
+  "id": 2000004,
+  "name": "secret-project",
+  "full_name": "sample-player/secret-project",
+  "owner": {
+    "login": "sample-player",
+    "id": 1000001,
+    "type": "User"
+  },
+  "private": true,
+  "fork": false,
+  "archived": false,
+  "pushed_at": "2026-10-19T00:00:00Z",
+  "default_branch": "main",
+  "description": "ignored",
+  "stargazers_count": 3
+}

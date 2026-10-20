@@ -1,0 +1,41 @@
+[
+  {
+    "id": 9001,
+    "tag_name": "v1.0.0",
+    "name": "ignored title",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2026-10-17T00:00:00Z",
+    "created_at": "2026-10-17T00:00:00Z",
+    "author": {
+      "id": 1000001,
+      "login": "sample-player",
+      "type": "User"
+    },
+    "body": "Release notes"
+  },
+  {
+    "id": 9002,
+    "tag_name": "<img src=x onerror=alert(1)>",
+    "draft": false,
+    "prerelease": true,
+    "published_at": "2026-10-18T00:00:00Z",
+    "created_at": "2026-10-18T00:00:00Z",
+    "author": {
+      "id": 1000001,
+      "login": "sample-player",
+      "type": "User"
+    },
+    "body": ""
+  },
+  {
+    "id": 8000,
+    "tag_name": "v0.1.0",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2025-01-01T00:00:00Z",
+    "created_at": "2025-01-01T00:00:00Z",
+    "author": null,
+    "body": null
+  }
+]

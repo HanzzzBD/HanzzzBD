@@ -18,36 +18,48 @@ type UserId = number;
 
 ## 2. L1 — Verified events (`legends/state/events/YYYY-MM.ndjson`)
 
-One JSON object per line, partitioned by the **event date** month. A revision of an existing key is a new line with a higher `rev`; readers keep the highest `rev` per key.
+> **Implemented** in `legends/src/normalize/event.ts` (Phase 05). That file is the source of truth for the event types; this section summarises them.
+
+One JSON object per line, partitioned by the `occurredAt` month. A revision of an existing key is a new line with a higher `rev`; readers keep the highest `rev` per key (`latestByKey`).
 
 ```ts
-interface EventBase {
-  key: string;            // stable identity, see table
-  rev: number;            // 1, 2, …
-  type: EventType;
-  eventDate: Instant;     // GitHub-reported time (author date, mergedAt, submittedAt, closedAt, publishedAt)
-  firstSeenAt: Instant;   // when the collector first observed the key (never changes)
-  backfill: boolean;
-  repo?: RepoRef;         // absent for user-level events
-  redacted?: boolean;     // true after visibility loss (ADR-0009)
-  sourceUnavailable?: boolean;
+interface NormalizedEvent<T extends EventType> {
+  key: string;                 // stable identifier (table below)
+  type: T;                     // commit | pull_request | review | issue | release | workflow_run
+                               // | contribution_day | private_contribution_count | repo_snapshot
+  rev: number;                 // 1, 2, …: assigned by mergeObservations
+  repo: RepoRef | null;        // null for user-level events
+  actor: ActorRef | null;      // who performed the event, when known
+  occurredAt: string;          // GitHub-reported time (author date, mergedAt, submittedAt, closedAt, publishedAt)
+  firstSeenAt: string;         // first observation (or occurredAt during backfill); never changes
+  metadata: MetadataByType[T]; // only the facts the game needs
+  provenance: { sources: SourceId[]; api: "rest" | "graphql"; collectorVersion: string };
+  verification: { status: "verified" | "partial" | "unverifiable"; notes: string[] };
 }
-interface RepoRef { id: RepoId; owner?: string; name?: string; isFork: boolean; isOwnedByPlayer: boolean; isPublic: boolean }
+interface RepoRef  { id: string /* "gh:<databaseId>" | "p:<hmac>" */; visibility: "public" | "private";
+                     fullName?: string /* public, or private only if explicitly allowed */;
+                     ownedByPlayer: boolean; isFork: boolean; isArchived: boolean }
+interface ActorRef { id: number | null; kind: "user" | "bot" | "organization" | "unknown"; isPlayer: boolean;
+                     login?: string /* human non-player on public repos only */; accountCreatedAt?: string }
 ```
 
-| Type | Key | Extra fields |
-| --- | --- | --- |
-| `commit` | `commit:<repoId>:<sha>` | `sha`, `parents: number`, `additions`, `deletions`, `changedFiles?`, `onDefaultBranch: true`, `authorIsPlayer`, `authorIsBot`, `fingerprint` (sha256 of normalised message + numbers; **the message itself is not stored**), `automationSignals: { messagePattern: boolean; localMinuteOfDay: number }`, `coAuthorUserIds: UserId[]`, `languageSnapshotId` |
-| `pr` | `pr:<nodeId>` | `number`, `state: open/merged/closed`, `mergedAt?`, `authorIsPlayer`, `mergedByIsPlayer`, `approvedByHumanUserIds: UserId[]`, `baseRepoOwnedByPlayer`, `headCommitCount` |
-| `review` | `review:<prNodeId>:<reviewerId>` | `prAuthorId`, `prAuthorIsHuman`, `prAuthorAccountCreatedAt`, `state`, `hasBody`, `firstSubmittedAt` |
-| `issue` | `issue:<nodeId>` | `number`, `authorId`, `authorIsHuman`, `authorIsPlayer`, `state`, `stateReason?`, `closedByPlayer?`, `closedAt?` |
-| `release` | `release:<id>` | `isDraft`, `isPrerelease`, `publishedAt`, `qualifyingCommitsSincePrev`, `hasNotes`, `tag` (sanitised, ≤ 64 characters) |
-| `run` (P1) | `run:<id>` | `event: push/…`, `conclusion`, `actorIsPlayer`, `actorIsBot` |
-| `calendarDay` | `cal:<YYYY-MM-DD>` | `count` (GitHub's own day count; used for streaks only, STK-9) |
-| `privateCount` | `private:<runDate>` | `cumulative: number`, `delta: number`, `windowYear` |
-| `repoSnapshot` | `repo:<repoId>@<runDate>` | `languages: Record<string, bytes>`, `topics`, `defaultBranchHead`, `markers?: string[]` (P1) |
+**Verification status:** `verified` means every fact the game uses was present in the response. `partial` means some optional fact was missing or truncated, and `notes` says which (for example `co_authors_truncated`, `changed_files_unavailable`, `approvals_truncated`, `closer_not_observed`, `calendar_timezone_unconfirmed`). Downstream rules must treat partial facts conservatively.
 
-**Not stored anywhere:** commit messages, PR, issue and release titles or bodies, branch names, file paths (except marker-file names), emails, avatar URLs of others.
+| Type | Key | Metadata (stored) |
+| --- | --- | --- |
+| `commit` | `commit:<repoRef.id>:<sha or pseudonym>` | `sha`, `parentCount`, `additions`, `deletions`, `changedFiles\|null`, `authoredAt`, `committedAt`, `onDefaultBranch`, `playerIsPrimaryAuthor`, `coAuthorIds`, `fingerprint`, `messagePatternHit` |
+| `pull_request` | `pr:<nodeId or pseudonym>` | `number?` (public only), `state`, `merged`, `mergedAt`, `createdAt`, `authorIsPlayer`, `mergedByIsPlayer`, `approvers[{id, accountCreatedAt}]` (human, non-player), `commitCount` |
+| `review` | `review:<prId>:<playerId>` (one per PR, STK-3) | `pullRequestKey`, `prAuthor`, `state`, `hasBody`, `submittedAt` (earliest review) |
+| `issue` | `issue:<nodeId or pseudonym>` | `number?`, `state`, `stateReason`, `createdAt`, `closedAt`, `author`, `closedByPlayer\|null` |
+| `release` | `release:<repoRef.id>:<id or pseudonym>` | `tag?` (sanitised, public only), `isDraft`, `isPrerelease`, `publishedAt`, `hasNotes`, `authorIsPlayer` |
+| `workflow_run` | `run:<repoRef.id>:<id or pseudonym>` | `event`, `status`, `conclusion`, `createdAt`, `actorIsPlayer`, `triggeredByPlayer`, `actorKind` |
+| `contribution_day` | `cal:<YYYY-MM-DD>` | `date`, `count` (GitHub calendar; streaks only, STK-9) |
+| `private_contribution_count` | `private_count:<windowFrom>:<windowTo>` | `windowFrom`, `windowTo`, `restrictedContributionsCount` (the engine derives deltas) |
+| `repo_snapshot` | `repo_snapshot:<repoRef.id>:<YYYY-MM-DD>` | `observedOn`, `languages` (bytes per Linguist language), `pushedAt` |
+
+**Never stored:** commit messages (used in memory for `fingerprint` and `messagePatternHit` only), PR, issue and release titles, bodies and notes text, branch names, emails, avatar URLs, file paths, and private repository names, numbers, tags or real identifiers (unless a name is explicitly allowed).
+
+**Changes from v0.1 of this document:** keys include the `RepoRef.id` prefix (`gh:` or `p:`); per-type flags such as `authorIsBot` moved into `ActorRef.kind`; `provenance` and `verification` were added; release `qualifyingCommitsSincePrev` is computed by the engine, not the collector.
 
 ## 3. L2 — Ledger (`legends/state/ledger/YYYY-MM.ndjson`)
 

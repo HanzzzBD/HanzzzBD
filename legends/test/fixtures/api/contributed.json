@@ -1,0 +1,42 @@
+{
+  "data": {
+    "user": {
+      "repositoriesContributedTo": {
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        },
+        "nodes": [
+          {
+            "databaseId": 2000003,
+            "name": "library",
+            "owner": {
+              "login": "other-org"
+            },
+            "isPrivate": false,
+            "isFork": false,
+            "isArchived": false,
+            "pushedAt": "2026-10-17T00:00:00Z",
+            "defaultBranchRef": {
+              "name": "main"
+            }
+          },
+          {
+            "databaseId": 2000006,
+            "name": "hidden-internal",
+            "owner": {
+              "login": "other-org"
+            },
+            "isPrivate": true,
+            "isFork": false,
+            "isArchived": false,
+            "pushedAt": "2026-10-17T00:00:00Z",
+            "defaultBranchRef": {
+              "name": "main"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

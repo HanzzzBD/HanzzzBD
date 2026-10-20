@@ -1,0 +1,36 @@
+[
+  {
+    "id": 2000001,
+    "name": "alpha",
+    "full_name": "sample-player/alpha",
+    "owner": {
+      "login": "sample-player",
+      "id": 1000001,
+      "type": "User"
+    },
+    "private": false,
+    "fork": false,
+    "archived": false,
+    "pushed_at": "2026-10-18T10:00:00Z",
+    "default_branch": "main",
+    "description": "ignored",
+    "stargazers_count": 3
+  },
+  {
+    "id": 2000002,
+    "name": "beta-fork",
+    "full_name": "sample-player/beta-fork",
+    "owner": {
+      "login": "sample-player",
+      "id": 1000001,
+      "type": "User"
+    },
+    "private": false,
+    "fork": true,
+    "archived": false,
+    "pushed_at": "2026-09-01T00:00:00Z",
+    "default_branch": "main",
+    "description": "ignored",
+    "stargazers_count": 3
+  }
+]

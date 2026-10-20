@@ -1,0 +1,83 @@
+{
+  "data": {
+    "repository": {
+      "issues": {
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        },
+        "nodes": [
+          {
+            "id": "I_alpha1",
+            "number": 11,
+            "state": "CLOSED",
+            "stateReason": "COMPLETED",
+            "createdAt": "2026-10-12T00:00:00Z",
+            "closedAt": "2026-10-16T00:00:00Z",
+            "author": {
+              "__typename": "User",
+              "login": "sample-player",
+              "databaseId": 1000001,
+              "createdAt": "2022-01-10T08:00:00Z"
+            },
+            "timelineItems": {
+              "nodes": [
+                {
+                  "actor": {
+                    "__typename": "User",
+                    "login": "sample-player",
+                    "databaseId": 1000001,
+                    "createdAt": "2022-01-10T08:00:00Z"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "I_alpha2",
+            "number": 12,
+            "state": "CLOSED",
+            "stateReason": "COMPLETED",
+            "createdAt": "2026-10-12T00:00:00Z",
+            "closedAt": "2026-10-17T00:00:00Z",
+            "author": {
+              "__typename": "User",
+              "login": "sample-ally",
+              "databaseId": 1000002,
+              "createdAt": "2020-05-01T00:00:00Z"
+            },
+            "timelineItems": {
+              "nodes": [
+                {
+                  "actor": {
+                    "__typename": "User",
+                    "login": "sample-player",
+                    "databaseId": 1000001,
+                    "createdAt": "2022-01-10T08:00:00Z"
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "I_alpha3",
+            "number": 13,
+            "state": "CLOSED",
+            "stateReason": "NOT_PLANNED",
+            "createdAt": "2026-10-12T00:00:00Z",
+            "closedAt": "2026-10-17T00:00:00Z",
+            "author": {
+              "__typename": "User",
+              "login": "sample-ally",
+              "databaseId": 1000002,
+              "createdAt": "2020-05-01T00:00:00Z"
+            },
+            "timelineItems": {
+              "nodes": []
+            }
+          }
+        ]
+      }
+    }
+  }
+}
