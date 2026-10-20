@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="244" viewBox="0 0 410 250" role="img" aria-labelledby="t d">
+  <title id="t">Hero lineup (sample data)</title>
+  <desc id="d">Top three heroes by mastery. Main hero Syntaria, the Typed Arcanist, TypeScript, Mage, Veteran, 4,120 mastery points. Pytha, the Serpent Archer, Python, Marksman, Adept, 1,860. Orrin, the Elephant Vanguard, PHP, Fighter, Adept, 1,240. Mastery reflects verified activity volume, not assessed skill.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#131B30"/><stop offset="1" stop-color="#0B1020"/></linearGradient>
+    <style>.f{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}.h{font-weight:700}</style>
+  </defs>
+  <rect x="1" y="1" width="408" height="248" rx="14" fill="url(#bg)" stroke="#E0B54E" stroke-opacity=".35"/>
+  <text x="24" y="32" class="f h" font-size="12" fill="#E0B54E" letter-spacing=".08em">HERO LINEUP</text>
+  <!-- tile template: medallion = role glyph ring in tech colour, monogram -->
+  <g class="f" text-anchor="middle">
+    <g transform="translate(73 100)">
+      <rect x="-58" y="-56" width="116" height="160" rx="10" fill="#1B2542" stroke="#E0B54E"/>
+      <path d="M0-40 L34-20 V20 L0 40 L-34 20 V-20Z" fill="#131B30" stroke="#3178C6" stroke-width="4"/>
+      <text y="9" class="h" font-size="24" fill="#E9EDF6">Sy</text>
+      <path d="M0-50 l3 7 7 0-5.5 4.5 2 7-6.5-4-6.5 4 2-7-5.5-4.5 7 0z" fill="#B9A6E8"/>
+      <text y="60" class="h" font-size="13" fill="#E9EDF6">Syntaria</text>
+      <text y="76" font-size="11" fill="#AEB8CE">TypeScript · Mage</text>
+      <text y="94" font-size="11" fill="#C0C9DC">Veteran · 4,120</text>
+    </g>
+    <g transform="translate(205 100)">
+      <rect x="-58" y="-56" width="116" height="160" rx="10" fill="#1B2542"/>
+      <path d="M0-40 L34-20 V20 L0 40 L-34 20 V-20Z" fill="#131B30" stroke="#3572A5" stroke-width="4"/>
+      <text y="9" class="h" font-size="24" fill="#E9EDF6">Py</text>
+      <text y="60" class="h" font-size="13" fill="#E9EDF6">Pytha</text>
+      <text y="76" font-size="11" fill="#AEB8CE">Python · Marksman</text>
+      <text y="94" font-size="11" fill="#C0C9DC">Adept · 1,860</text>
+    </g>
+    <g transform="translate(337 100)">
+      <rect x="-58" y="-56" width="116" height="160" rx="10" fill="#1B2542"/>
+      <path d="M0-40 L34-20 V20 L0 40 L-34 20 V-20Z" fill="#131B30" stroke="#4F5D95" stroke-width="4"/>
+      <text y="9" class="h" font-size="24" fill="#E9EDF6">Or</text>
+      <text y="60" class="h" font-size="13" fill="#E9EDF6">Orrin</text>
+      <text y="76" font-size="11" fill="#AEB8CE">PHP · Fighter</text>
+      <text y="94" font-size="11" fill="#C0C9DC">Adept · 1,240</text>
+    </g>
+  </g>
+  <text x="24" y="236" class="f" font-size="10" fill="#8792AB">Mastery = verified activity volume, not assessed skill</text>
+  <text x="386" y="236" text-anchor="end" class="f" font-size="10" fill="#8792AB" letter-spacing=".15em">SAMPLE DATA</text>
+</svg>

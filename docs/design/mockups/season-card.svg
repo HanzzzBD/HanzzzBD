@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="244" viewBox="0 0 410 250" role="img" aria-labelledby="t d">
+  <title id="t">Season card (sample data)</title>
+  <desc id="d">Season 1, Season of First Light, 38 days left. Rank Paragon II, 3 of 5 stars in division. Promotion trial for Ascendant: 9 of 15 objectives, 4 of 6 contested. This week 3 of 5 stars earned.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#131B30"/><stop offset="1" stop-color="#0B1020"/></linearGradient>
+    <linearGradient id="crest" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C7A9FF"/><stop offset="1" stop-color="#6A3FC2"/></linearGradient>
+    <style>.f{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}.h{font-weight:700;letter-spacing:.06em}</style>
+  </defs>
+  <rect x="1" y="1" width="408" height="248" rx="14" fill="url(#bg)" stroke="#A47CF0" stroke-opacity=".55"/>
+  <text x="24" y="34" class="f h" font-size="12" fill="#E0B54E">SEASON 1 · SEASON OF FIRST LIGHT</text>
+  <text x="386" y="34" text-anchor="end" class="f" font-size="12" fill="#AEB8CE">38 days left</text>
+  <!-- Paragon crest: original heraldic shield + crown -->
+  <g transform="translate(70 112) scale(.82)">
+    <path d="M0-58 L44-40 V6 C44 34 22 50 0 60 C-22 50 -44 34 -44 6 V-40Z" fill="#1B2542" stroke="url(#crest)" stroke-width="4"/>
+    <path d="M0-40 L28-28 V4 C28 22 14 33 0 40 C-14 33 -28 22 -28 4 V-28Z" fill="url(#crest)" opacity=".85"/>
+    <path d="M-20-62 l8 12 8-16 4 0 8 16 8-12 -4 18 h-28z" fill="#F3D98E"/>
+    <text y="12" text-anchor="middle" class="f h" font-size="22" fill="#0B1020">II</text>
+  </g>
+  <text x="132" y="78" class="f h" font-size="22" fill="#A47CF0">Paragon II</text>
+  <!-- stars -->
+  <g transform="translate(134 96)" fill="#F3D98E">
+    <path id="s" d="M9 0l2.6 6 6.4.6-4.9 4.2 1.5 6.3L9 13.8 3.4 17.1l1.5-6.3L0 6.6l6.4-.6z"/>
+    <use href="#s" x="24"/><use href="#s" x="48"/>
+    <use href="#s" x="72" fill="#3A4566"/><use href="#s" x="96" fill="#3A4566"/>
+  </g>
+  <text x="134" y="136" class="f" font-size="12" fill="#AEB8CE">3 / 5 ★ to Paragon I · 64 season stars</text>
+  <!-- trial -->
+  <g transform="translate(24 184)" class="f">
+    <text font-size="11" fill="#8792AB" letter-spacing=".08em">PROMOTION TRIAL · ASCENDANT</text>
+    <rect y="10" width="362" height="8" rx="4" fill="#1B2542"/><rect y="10" width="217" height="8" rx="4" fill="#A47CF0"/>
+    <text y="36" font-size="12" fill="#E9EDF6">Objectives 9 / 15 · Contested 4 / 6 · Repos 2 / 2 ✔</text>
+    <text y="56" font-size="12" fill="#AEB8CE">This week: 3 / 5 ★ · weekly cap resets Monday 00:00 WIB</text>
+  </g>
+  <text x="386" y="52" text-anchor="end" class="f" font-size="10" fill="#8792AB" letter-spacing=".15em">SAMPLE DATA</text>
+</svg>
