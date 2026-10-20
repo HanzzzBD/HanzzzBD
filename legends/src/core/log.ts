@@ -25,7 +25,7 @@ export function sanitizeLogText(value: string): string {
     .replace(/%/g, "%25")
     .replace(/\r/g, "%0D")
     .replace(/\n/g, "%0A")
-    .replace(/::/g, ":​:")
+    .replace(/::/g, ":\u200B:")
     .slice(0, 500);
 }
 

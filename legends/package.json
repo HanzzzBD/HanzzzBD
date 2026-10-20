@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "pnpm typecheck && pnpm lint && pnpm test"
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "preview:map": "node scripts/preview-map.ts"
   },
   "dependencies": {
     "zod": "4.6.5"
