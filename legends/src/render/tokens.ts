@@ -98,3 +98,46 @@ export function themeColours(theme: Theme): Set<string> {
 }
 
 export const FONT_STACK = '-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif';
+
+export type RarityId = "common" | "uncommon" | "rare" | "epic" | "legendary";
+
+/** Rarity colours (visual-direction §3.4); the light values are text-safe. */
+export const RARITY_COLOURS: Readonly<Record<ThemeId, Readonly<Record<RarityId, string>>>> = {
+  dark: {
+    common: "#A3ACBC",
+    uncommon: "#52C98F",
+    rare: "#5C9AF5",
+    epic: "#A47CF0",
+    legendary: "#EDB64E",
+  },
+  light: {
+    common: "#5E6677",
+    uncommon: "#1A6E4E",
+    rare: "#2357B8",
+    epic: "#6A3FC2",
+    legendary: "#7A5912",
+  },
+};
+
+/** Role glyph tints (visual-direction §3.5); used on role glyphs only. */
+export const ROLE_COLOURS: Readonly<Record<string, string>> = {
+  mage: "#B9A6E8",
+  fighter: "#F08A6C",
+  marksman: "#52C98F",
+  assassin: "#E57A9A",
+  tank: "#A9BED3",
+  support: "#4FD1C5",
+};
+
+/**
+ * Colours a card may use besides the theme tokens: rarity and role colours, plus the
+ * technology ("Linguist") accents of the hero catalog, which only tint medallion rings.
+ */
+export function cardPalette(theme: Theme, heroAccents: readonly string[]): Set<string> {
+  return new Set([
+    ...themeColours(theme),
+    ...Object.values(RARITY_COLOURS[theme.id]),
+    ...Object.values(ROLE_COLOURS),
+    ...heroAccents,
+  ]);
+}

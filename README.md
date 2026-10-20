@@ -15,6 +15,10 @@ I mainly work on web development, backend systems, mobile applications, and depl
 - 🎮 Also interested in games, anime, and creative technology
 - 💻 Motto: *Learn hard now, relax later.*
 
+<!-- LEGENDS:START -->
+<!-- GitHub Legends block: filled by the generator after its first successful run with real data. Until then nothing is shown here. Do not edit between these markers; edit legends/templates/readme-block.md instead. -->
+<!-- LEGENDS:END -->
+
 ---
 
 ### 🌐 Connect With Me

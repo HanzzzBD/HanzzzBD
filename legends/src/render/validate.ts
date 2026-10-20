@@ -110,6 +110,9 @@ export interface SvgRules {
   height: number;
   maxBytes: number;
   minFontSize?: number;
+  /** Colours allowed besides the theme tokens (catalog palettes). Defaults to tokens only. */
+  palette?: ReadonlySet<string>;
+  viewBox?: string;
 }
 
 const UNSAFE_CHARS = /[\p{Cc}\p{Cf}\u2028\u2029]/u;
@@ -158,7 +161,7 @@ export function validateSvg(source: string, rules: SvgRules): SvgIssue[] {
     add("root", "unexpected viewBox");
   if (root.attrs.role !== "img") add("a11y", 'root needs role="img"');
 
-  const colours = themeColours(rules.theme);
+  const colours = rules.palette ?? themeColours(rules.theme);
   const ids = new Set<string>();
   const refs: string[] = [];
   const all: XmlElement[] = [];
