@@ -365,7 +365,10 @@ export function progressSeasons(ctx: ExpContext, closureAllowed: boolean): Seaso
  * Activity BP (20% of each EXP award, floor) and battle BP share a 700 BP weekly cap.
  * Activity BP is not granted for days before Season 1 (PRD §10, PD-10).
  */
-export function awardActivityAndBattleBp(ctx: ExpContext): void {
+export function awardActivityAndBattleBp(
+  ctx: ExpContext,
+  bonusPercent: (expEntry: LedgerEntry) => number = () => 0,
+): void {
   const { rules, config } = ctx;
   type Item = {
     id: string;
@@ -381,7 +384,9 @@ export function awardActivityAndBattleBp(ctx: ExpContext): void {
   for (const e of ctx.ledger.entries) {
     if (!e.effectiveDay || !e.week || !seasonOf(e.effectiveDay, config.season1Start)) continue;
     if (e.kind === "exp" && e.amount > 0) {
-      const base = Math.floor((e.amount * rules.bp.activityPercent) / 100);
+      // Activity BP = floor(20% of EXP); an active emblem adds its bonus with floor rounding (GDD §D.4).
+      const plain = Math.floor((e.amount * rules.bp.activityPercent) / 100);
+      const base = Math.floor((plain * (100 + bonusPercent(e))) / 100);
       if (base > 0)
         items.push({
           id: `bp.activity|${e.id}`,

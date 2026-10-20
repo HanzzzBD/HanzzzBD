@@ -1,5 +1,6 @@
 import type { AnyEvent } from "../normalize/event.ts";
 import { allocateCommitExp, allocateOtherExp, allocatePrivateExp, type ExpContext } from "./exp.ts";
+import { evaluateSpecialization, type SpecializationResult } from "./heroes/index.ts";
 import { type LedgerEntry, LedgerIndex } from "./ledger.ts";
 import { type LevelProgress, levelProgress } from "./level.ts";
 import {
@@ -76,6 +77,8 @@ export interface EngineOutput {
   automationFlags: AutomationFlag[];
   seasons: SeasonState[];
   progress: Progress;
+  /** Heroes, mastery, emblems and equipment. */
+  specialization: SpecializationResult;
 }
 
 /**
@@ -101,7 +104,7 @@ export function runEngine(input: EngineInput): EngineOutput {
     runMs,
   };
 
-  const prepared = prepareEvents(input.events, diagnostics);
+  const prepared = prepareEvents(input.events, diagnostics, runMs);
   const events = [...prepared.values()].sort((a, b) =>
     a.key < b.key ? -1 : a.key > b.key ? 1 : 0,
   );
@@ -115,10 +118,19 @@ export function runEngine(input: EngineInput): EngineOutput {
   recordObjectives(events, ctx);
   awardBattles(ctx);
   const seasons = progressSeasons(ctx, input.closureAllowed);
-  // 3. Battle Points.
-  awardActivityAndBattleBp(ctx);
+  // 3. Specialization (heroes, mastery, emblems, equipment) and its milestone BP.
+  const specialization = evaluateSpecialization(
+    ledger,
+    prepared,
+    input.config,
+    rules.version,
+    input.runAt,
+    diagnostics,
+  );
+  // 4. Battle Points (activity BP includes the active emblem's bonus).
+  awardActivityAndBattleBp(ctx, specialization.emblems.bonusPercent);
   awardLevelBp(ctx);
-  // 4. Corrections.
+  // 5. Corrections.
   flagUnavailableSources(new Set(prepared.keys()), new Set(input.unavailableKeys ?? []), ctx);
 
   const newEntries = ledger.entries.slice(existing.length);
@@ -130,6 +142,7 @@ export function runEngine(input: EngineInput): EngineOutput {
     diagnostics: diagnostics.summary(),
     automationFlags: flags,
     seasons,
+    specialization,
     progress: deriveProgress(ledger.entries, seasons, rules, input.config, runMs),
   };
 }

@@ -19,7 +19,8 @@ export type SourceId =
   | "closedIssues"
   | "releases"
   | "languages"
-  | "workflowRuns";
+  | "workflowRuns"
+  | "trees";
 
 export type EventType =
   | "commit"
@@ -30,7 +31,8 @@ export type EventType =
   | "workflow_run"
   | "contribution_day"
   | "private_contribution_count"
-  | "repo_snapshot";
+  | "repo_snapshot"
+  | "repo_markers";
 
 export type Visibility = "public" | "private";
 
@@ -159,6 +161,15 @@ export interface RepoSnapshotMetadata {
   observedOn: string;
   languages: Record<string, number>;
   pushedAt: string | null;
+  /** Repository topics (owner-set metadata; weak "tagged" evidence only). */
+  topics?: string[];
+}
+
+export interface RepoMarkersMetadata {
+  observedOn: string;
+  /** Only paths matching equipment marker patterns (normalize/markers.ts); never full trees. */
+  paths: string[];
+  truncated: boolean;
 }
 
 export interface MetadataByType {
@@ -171,6 +182,7 @@ export interface MetadataByType {
   contribution_day: ContributionDayMetadata;
   private_contribution_count: PrivateCountMetadata;
   repo_snapshot: RepoSnapshotMetadata;
+  repo_markers: RepoMarkersMetadata;
 }
 
 export interface NormalizedEvent<T extends EventType = EventType> {

@@ -283,3 +283,82 @@ export function commitsOn(
 }
 
 export type { AnyEvent };
+
+export function snapshot(
+  repo: RepoRef,
+  observedOn: string,
+  languages: Record<string, number>,
+  topics?: string[],
+): NormalizedEvent<"repo_snapshot"> {
+  const metadata: NormalizedEvent<"repo_snapshot">["metadata"] = {
+    observedOn,
+    languages,
+    pushedAt: null,
+  };
+  if (topics) metadata.topics = topics;
+  return {
+    key: `repo_snapshot:${repo.id}:${observedOn}`,
+    type: "repo_snapshot",
+    rev: 1,
+    repo,
+    actor: null,
+    occurredAt: `${observedOn}T00:00:00Z`,
+    firstSeenAt: `${observedOn}T00:00:00Z`,
+    metadata,
+    provenance: { sources: ["languages"], api: "rest", collectorVersion: "1" },
+    verification: { status: "verified", notes: [] },
+  };
+}
+
+export function markers(
+  repo: RepoRef,
+  observedOn: string,
+  paths: string[],
+): NormalizedEvent<"repo_markers"> {
+  return {
+    key: `repo_markers:${repo.id}:${observedOn}`,
+    type: "repo_markers",
+    rev: 1,
+    repo,
+    actor: null,
+    occurredAt: `${observedOn}T00:00:00Z`,
+    firstSeenAt: `${observedOn}T00:00:00Z`,
+    metadata: { observedOn, paths, truncated: false },
+    provenance: { sources: ["trees"], api: "rest", collectorVersion: "1" },
+    verification: { status: "verified", notes: [] },
+  };
+}
+
+export function workflowRun(
+  repo: RepoRef,
+  at: string,
+  opts: {
+    event?: string;
+    conclusion?: string;
+    bot?: boolean;
+    byPlayer?: boolean;
+    id?: string;
+  } = {},
+): NormalizedEvent<"workflow_run"> {
+  counter++;
+  return {
+    key: `run:${repo.id}:${opts.id ?? counter}`,
+    type: "workflow_run",
+    rev: 1,
+    repo,
+    actor: opts.bot ? BOT : PLAYER,
+    occurredAt: at,
+    firstSeenAt: at,
+    metadata: {
+      event: opts.event ?? "push",
+      status: "completed",
+      conclusion: opts.conclusion ?? "success",
+      createdAt: at,
+      actorIsPlayer: !opts.bot,
+      triggeredByPlayer: opts.byPlayer ?? !opts.bot,
+      actorKind: opts.bot ? "bot" : "user",
+    },
+    provenance: { sources: ["workflowRuns"], api: "rest", collectorVersion: "1" },
+    verification: { status: "verified", notes: [] },
+  };
+}

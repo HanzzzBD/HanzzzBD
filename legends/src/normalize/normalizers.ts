@@ -16,6 +16,7 @@ import {
   type SourceId,
   type Verification,
 } from "./event.ts";
+import { extractMarkerPaths } from "./markers.ts";
 import type { Privacy } from "./privacy.ts";
 
 export interface PlayerIdentity {
@@ -454,5 +455,28 @@ export function normalizeRepoSnapshot(
     metadata: { observedOn, languages: sorted, pushedAt },
     provenance: provenance("languages", "rest"),
     verification: { status: "verified", notes: [] },
+  };
+}
+
+/** Marker paths from a default-branch tree (only marker matches are kept; contents are never read). */
+export function normalizeRepoMarkers(
+  treePaths: Iterable<string>,
+  observedOn: string,
+  repo: RepoRef,
+): NormalizedEvent<"repo_markers"> {
+  const { paths, truncated } = extractMarkerPaths(treePaths);
+  return {
+    key: `repo_markers:${repo.id}:${observedOn}`,
+    type: "repo_markers",
+    rev: 0,
+    repo,
+    actor: null,
+    occurredAt: `${observedOn}T00:00:00Z`,
+    firstSeenAt: UNSET,
+    metadata: { observedOn, paths, truncated },
+    provenance: provenance("trees", "rest"),
+    verification: truncated
+      ? { status: "partial", notes: ["marker_paths_truncated"] }
+      : { status: "verified", notes: [] },
   };
 }

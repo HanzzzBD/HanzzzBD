@@ -55,7 +55,8 @@ interface ActorRef { id: number | null; kind: "user" | "bot" | "organization" | 
 | `workflow_run` | `run:<repoRef.id>:<id or pseudonym>` | `event`, `status`, `conclusion`, `createdAt`, `actorIsPlayer`, `triggeredByPlayer`, `actorKind` |
 | `contribution_day` | `cal:<YYYY-MM-DD>` | `date`, `count` (GitHub calendar; streaks only, STK-9) |
 | `private_contribution_count` | `private_count:<windowFrom>:<windowTo>` | `windowFrom`, `windowTo`, `restrictedContributionsCount` (the engine derives deltas) |
-| `repo_snapshot` | `repo_snapshot:<repoRef.id>:<YYYY-MM-DD>` | `observedOn`, `languages` (bytes per Linguist language), `pushedAt` |
+| `repo_snapshot` | `repo_snapshot:<repoRef.id>:<YYYY-MM-DD>` | `observedOn`, `languages` (bytes per Linguist language), `pushedAt`, `topics?` (weak equipment evidence) |
+| `repo_markers` | `repo_markers:<repoRef.id>:<YYYY-MM-DD>` | `observedOn`, `paths` (**only** paths matching equipment marker patterns, never the full tree), `truncated` (Phase 07; collector support pending) |
 
 **Never stored:** commit messages (used in memory for `fingerprint` and `messagePatternHit` only), PR, issue and release titles, bodies and notes text, branch names, emails, avatar URLs, file paths, and private repository names, numbers, tags or real identifiers (unless a name is explicitly allowed).
 

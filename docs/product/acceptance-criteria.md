@@ -90,7 +90,7 @@
 
 | ID | Criterion |
 | --- | --- |
-| AC-SYS07-01 | With the Backend emblem active, a commit worth 10 EXP in a repo with BE weight ≥ 0.5 gives activity BP floor(2 × 1.15) = 2, and a merged contested PR (60 EXP) in such a repo gives floor(12 × 1.15) = 13. Quest, medal and milestone BP are unaffected. (Rounding: floor after the multiplier; GDD §D.4) |
+| AC-SYS07-01 | With the Backend emblem active, a commit worth 10 EXP in a repo with BE weight ≥ 0.5 gives activity BP floor(2 × 1.15) = 2. With the Open Source emblem active, an external merge (60 EXP) gives floor(12 × 1.15) = 13. Single-domain emblems boost commit BP only (GDD §D.4). Quest, medal and milestone BP are unaffected. (Rounding: floor after the multiplier.) |
 | AC-SYS07-02 | Changing the active emblem 3 days after the last change is ignored, with a warning. |
 | AC-SYS07-03 | Selecting an emblem the player does not own leaves the previous emblem active. |
 | AC-SYS07-04 | Workflow runs triggered by `schedule` or by a bot actor do not count toward DevOps emblem points. |

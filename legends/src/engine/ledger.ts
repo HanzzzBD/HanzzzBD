@@ -2,7 +2,7 @@
  * Ledger (L2): append-only award records. Every entry's `id` is its idempotency key,
  * so the same rule can never reward the same subject twice (STK-1).
  */
-export type LedgerKind = "exp" | "bp" | "star" | "trial" | "season" | "flag";
+export type LedgerKind = "exp" | "bp" | "star" | "trial" | "season" | "flag" | "unlock";
 export type LedgerReason = "capped" | "weekly_cap" | "overflow" | "season_closed";
 
 export interface LedgerEntry {

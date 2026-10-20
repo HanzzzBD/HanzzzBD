@@ -13,6 +13,14 @@ export interface EngineConfig {
   automationRepos: readonly string[];
   /** Repos excluded from credit. Reduce credit only. */
   excludeRepos: readonly string[];
+  /** Main hero and hidden heroes (choices only; never unlock anything). */
+  heroes?: { main?: string | null; hide?: readonly string[] };
+  /** Active emblem choice (must be owned; 7-day switch cooldown). */
+  emblem?: { active?: string | null };
+  /** Equipped item ids (verified items only; see GDD §E.5). */
+  build?: readonly string[];
+  /** Self-declared tools: displayed with ✎, never rewarded. */
+  declaredTools?: readonly string[];
 }
 
 /** Aggregated, privacy-safe diagnostics (codes + counts + a few example keys). */
@@ -85,17 +93,24 @@ export function repoListed(repo: RepoRef | null, list: readonly string[]): boole
 /**
  * Keeps the latest revision of each key. Ties (same key and rev, different content) are
  * resolved by the smaller content hash, so the outcome never depends on input order.
- * Events never merged into state (rev < 1) are rejected.
+ * Events never merged into state (rev < 1), or observed after the run, are rejected.
  */
 export function prepareEvents(
   events: readonly AnyEvent[],
   diagnostics: Diagnostics,
+  runMs: number = Number.POSITIVE_INFINITY,
 ): Map<string, AnyEvent> {
   const out = new Map<string, AnyEvent>();
   const hashes = new Map<string, string>();
   for (const event of events) {
     if (!Number.isInteger(event.rev) || event.rev < 1) {
       diagnostics.add("unmerged_event", event.key);
+      continue;
+    }
+    // A store can only have observed an event before (or during) the current run.
+    const seen = parseInstant(event.firstSeenAt);
+    if (seen !== null && seen > runMs) {
+      diagnostics.add("first_seen_after_run", event.key);
       continue;
     }
     const current = out.get(event.key);
