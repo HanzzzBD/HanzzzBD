@@ -21,7 +21,7 @@ export type EmblemId =
   | "devops"
   | "database"
   | "open_source";
-type Domain = "fe" | "be" | "ai" | "ops" | "db";
+export type Domain = "fe" | "be" | "ai" | "ops" | "db";
 
 export interface EmblemDef {
   id: EmblemId;
@@ -150,7 +150,7 @@ export interface EmblemResult {
 }
 
 /** Domain weight of a snapshot in "percent × bytes"; game languages excluded in game projects. */
-function domainWeight(
+export function domainWeight(
   languages: Readonly<Record<string, number>>,
   domain: Domain,
   gameProject: boolean,

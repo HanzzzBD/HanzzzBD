@@ -95,7 +95,7 @@ New input guard: events whose `firstSeenAt` is later than `runAt` are rejected (
 | H-2 | Expo is matched by `eas.json` only. The "`app.json` + expo folder conventions" rule is too ambiguous to verify; P2 manifest parsing (`expo` dependency) will cover it | Interpretation |
 | H-3 | "A single Tagged slot" is read as: at most one tagged item may occupy one of the 5 build slots | Interpretation |
 | H-4 | The 6th build slot (1,500 BP) needs the shop, which is not implemented | Pending (shop) |
-| H-5 | Set medals ("Container Kit", "Quality Gate", "Full Build") and item quests need the medal and quest systems | Pending |
+| H-5 | Set medals ("Container Kit", "Quality Gate", "Full Build") and item quests need the medal and quest systems | Done in Phase 08 (`achievement-system.md`, `quest-system.md`) |
 | H-6 | Unknown Spirits give no BP and have no tiers | Interpretation of GDD §C.5 |
 | H-7 | Hero names were chosen to avoid Mobile Legends names; a legal review is still recommended before other players adopt the project (GDD §C.2) | Open recommendation |
 

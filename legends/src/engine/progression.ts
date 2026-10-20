@@ -3,8 +3,8 @@ import { type ExpContext, isContestedMerge, isQualifyingReview } from "./exp.ts"
 import type { LedgerEntry } from "./ledger.ts";
 import { levelForExp, levelUpBp } from "./level.ts";
 import { isEstablishedHuman, repoListed, timingOf } from "./qualify.ts";
-import { gateStars, rankFromStars, softResetStars, type TrialProgress } from "./rank.ts";
-import type { TierRule } from "./rules.ts";
+import { gateStars, rankFromStars, softResetStars, type TrialProgress, trialMet } from "./rank.ts";
+import type { TierId, TierRule } from "./rules.ts";
 import { dayOf, dayStart, isoWeek, type SeasonInfo, seasonByNumber, seasonOf } from "./time.ts";
 
 const ref = (e: AnyEvent) => `${e.key}@${e.rev}`;
@@ -233,7 +233,20 @@ export interface SeasonState {
   blockedBy: string | null;
   trial: TrialProgress;
   closed: boolean;
+  /** True once the season ended ≥ 48 h ago (it may still await the closure guard). */
+  closable: boolean;
+  /** Day each tier was first held this season (the starting tier counts from day one). */
+  reached: Partial<Record<TierId, string>>;
+  /** Day each gated tier's promotion trial was first met this season. */
+  trialMet: Partial<Record<TierId, string>>;
+  /** Gated stars after each day with stars or objectives (season timeline). */
+  history: Array<{ day: string; stars: number }>;
 }
+
+export type ArchiveMetaFn = (
+  season: SeasonInfo,
+  state: Omit<SeasonState, "closed">,
+) => Record<string, string | number | boolean>;
 
 function trialFrom(entries: readonly LedgerEntry[]): TrialProgress {
   const repos = new Set<string>();
@@ -255,7 +268,11 @@ function trialFrom(entries: readonly LedgerEntry[]): TrialProgress {
  * gated rank first reaches the tier), and season closure with season-end BP. Closed
  * seasons are immutable; their recorded final stars drive the next soft reset.
  */
-export function progressSeasons(ctx: ExpContext, closureAllowed: boolean): SeasonState[] {
+export function progressSeasons(
+  ctx: ExpContext,
+  closureAllowed: boolean,
+  archiveMeta?: ArchiveMetaFn,
+): SeasonState[] {
   const { rules, config } = ctx;
   const today = dayOf(ctx.runMs, config.timezone);
   const current = seasonOf(today, config.season1Start);
@@ -278,13 +295,21 @@ export function progressSeasons(ctx: ExpContext, closureAllowed: boolean): Seaso
     let raw = 0;
     let gated = { effective: startStars, banked: 0, blockedBy: null as string | null };
     let trial: TrialProgress = { objectives: 0, contested: 0, repos: 0, counterparts: 0 };
+    const reached: Partial<Record<TierId, string>> = {};
+    const trialMetOn: Partial<Record<TierId, string>> = {};
+    const history: Array<{ day: string; stars: number }> = [];
+    for (let t = 0; t <= startTier; t++) reached[(rules.tiers[t] as TierRule).id] = season.startDay;
     for (const day of timeline) {
       const upTo = inSeason.filter((e) => (e.effectiveDay ?? "") <= day);
       raw = upTo.filter((e) => e.kind === "star").reduce((s, e) => s + e.amount, 0);
       trial = trialFrom(upTo);
       gated = gateStars(startStars + raw, startStars, trial, rules);
-      if (closeEntry) continue;
       const tierIndex = rankFromStars(gated.effective, rules).tierIndex;
+      history.push({ day, stars: gated.effective });
+      for (let t = 0; t <= tierIndex; t++) reached[(rules.tiers[t] as TierRule).id] ??= day;
+      for (const tier of rules.tiers)
+        if (tier.trial && trialMet(tier.trial, trial)) trialMetOn[tier.id] ??= day;
+      if (closeEntry) continue;
       for (let t = startTier + 1; t <= tierIndex; t++) {
         const tier = rules.tiers[t] as TierRule;
         if (tier.firstTimeBp <= 0) continue;
@@ -308,6 +333,19 @@ export function progressSeasons(ctx: ExpContext, closureAllowed: boolean): Seaso
     const closable =
       ctx.runMs >= dayStart(nextStart, config.timezone) + rules.time.closureGraceHours * 3_600_000;
     let finalStars = gated.effective;
+    const base = {
+      season,
+      startStars,
+      rawStars: startStars + raw,
+      stars: finalStars,
+      banked: gated.banked,
+      blockedBy: gated.blockedBy,
+      trial,
+      closable,
+      reached,
+      trialMet: trialMetOn,
+      history,
+    };
     if (closeEntry) {
       finalStars = Number(closeEntry.meta?.finalStars ?? finalStars);
     } else if (closable && closureAllowed) {
@@ -329,6 +367,7 @@ export function progressSeasons(ctx: ExpContext, closureAllowed: boolean): Seaso
           rawStars: startStars + raw,
           banked: gated.banked,
           startStars,
+          ...(archiveMeta ? archiveMeta(season, base) : {}),
         },
       });
       ctx.ledger.add({
@@ -345,13 +384,8 @@ export function progressSeasons(ctx: ExpContext, closureAllowed: boolean): Seaso
       });
     }
     states.push({
-      season,
-      startStars,
-      rawStars: startStars + raw,
+      ...base,
       stars: finalStars,
-      banked: gated.banked,
-      blockedBy: gated.blockedBy,
-      trial,
       closed: ctx.ledger.has(`season.close|${season.id}`),
     });
     startStars = softResetStars(finalStars, rules);

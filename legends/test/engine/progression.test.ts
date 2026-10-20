@@ -4,6 +4,7 @@ import type { LedgerEntry } from "../../src/engine/ledger.ts";
 import { addDays } from "../../src/engine/time.ts";
 import {
   type AnyEvent,
+  awards,
   CONFIG,
   commit,
   commitsOn,
@@ -146,7 +147,7 @@ describe("rank, trials and first-time tier BP", () => {
       second.newEntries.filter((e) => e.rule === "bp.tier_first").map((e) => e.meta?.tier),
     ).toEqual(["champion"]);
     const third = run([...base, ...objectives], "2026-12-22T00:00:00Z", { ledger: second.ledger });
-    expect(third.newEntries).toEqual([]);
+    expect(awards(third.newEntries)).toEqual([]);
   });
 
   it("reports progress toward the next division", () => {
@@ -264,7 +265,9 @@ describe("Battle Points", () => {
       createdAt: "2026-10-19T00:00:00Z",
     };
     const out = run(commitsOn("2026-10-20", 3), "2026-10-26T00:00:00Z", { ledger: [filler] });
-    const bp = out.newEntries.filter((e) => e.kind === "bp" && e.week === "2026-W43");
+    const bp = out.newEntries.filter(
+      (e) => (e.rule === "bp.activity" || e.rule.startsWith("bp.battle")) && e.week === "2026-W43",
+    );
     expect(bp.map((e) => [e.rule, e.amount, e.reason ?? ""])).toEqual([
       ["bp.activity", 2, ""],
       ["bp.activity", 2, ""],
@@ -296,7 +299,7 @@ describe("corrections and deleted events", () => {
   it("awards a PR when a later revision shows it merged", () => {
     const open = pr({ id: "PR_x", mergedAt: null });
     const first = run([open], RUN1);
-    expect(first.newEntries).toEqual([]);
+    expect(awards(first.newEntries)).toEqual([]);
     const merged = {
       ...pr({ id: "PR_x", mergedAt: wib("2026-10-26", "09:00"), repo: EXT }),
       rev: 2,
@@ -328,7 +331,7 @@ describe("corrections and deleted events", () => {
       },
     };
     const second = run([reopened], RUN2, { ledger: first.ledger });
-    expect(second.newEntries).toEqual([]);
+    expect(awards(second.newEntries)).toEqual([]);
     expect(sum(second.ledger, (e) => e.kind === "exp")).toBe(
       sum(first.ledger, (e) => e.kind === "exp"),
     );
@@ -338,14 +341,16 @@ describe("corrections and deleted events", () => {
     const c = commit({ at: wib("2026-10-20") });
     const first = run([c], RUN1);
     const second = run([], RUN2, { ledger: first.ledger });
-    expect(second.newEntries).toEqual([
+    expect(awards(second.newEntries)).toEqual([
       expect.objectContaining({ id: `flag.source_unavailable|${c.key}`, kind: "flag", amount: 0 }),
     ]);
     expect(
-      run([c], "2026-10-28T00:00:00Z", {
-        ledger: first.ledger,
-        unavailableKeys: [c.key],
-      }).newEntries.map((e) => e.id),
+      awards(
+        run([c], "2026-10-28T00:00:00Z", {
+          ledger: first.ledger,
+          unavailableKeys: [c.key],
+        }).newEntries,
+      ).map((e) => e.id),
     ).toEqual([`flag.source_unavailable|${c.key}`]);
   });
 

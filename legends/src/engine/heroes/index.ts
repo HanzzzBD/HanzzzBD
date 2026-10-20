@@ -1,12 +1,13 @@
 import type { AnyEvent } from "../../normalize/event.ts";
 import type { LedgerIndex } from "../ledger.ts";
 import type { Diagnostics, EngineConfig } from "../qualify.ts";
-import { attribute } from "./attribution.ts";
+import { type Attribution, attribute } from "./attribution.ts";
 import { type EmblemResult, evaluateEmblems } from "./emblems.ts";
 import { type EquipmentResult, evaluateEquipment } from "./equipment.ts";
 import { evaluateHeroes, type HeroState } from "./mastery.ts";
 
 export interface SpecializationResult {
+  attribution: Attribution;
   heroes: HeroState[];
   emblems: EmblemResult;
   equipment: EquipmentResult;
@@ -51,7 +52,7 @@ export function evaluateSpecialization(
     runAt,
     diagnostics,
   );
-  return { heroes, emblems, equipment };
+  return { attribution, heroes, emblems, equipment };
 }
 
 export * from "./catalog.ts";

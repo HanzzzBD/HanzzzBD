@@ -9,6 +9,7 @@ import type { RepoRef } from "../../src/normalize/event.ts";
 import { extractMarkerPaths, MARKER_RULES, matchMarkerItems } from "../../src/normalize/markers.ts";
 import {
   type AnyEvent,
+  awards,
   CONFIG,
   commitsOn,
   EXT,
@@ -174,7 +175,7 @@ describe("emblem progression", () => {
 
   it("rejects events observed after the run (impossible store input)", () => {
     const out = run(commitsOn("2026-10-26", 3), { runAt: "2026-10-25T00:00:00Z" });
-    expect(out.newEntries).toEqual([]);
+    expect(awards(out.newEntries)).toEqual([]);
     expect(out.diagnostics.find((d) => d.code === "first_seen_after_run")?.count).toBe(3);
   });
 

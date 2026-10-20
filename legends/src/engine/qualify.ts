@@ -21,6 +21,8 @@ export interface EngineConfig {
   build?: readonly string[];
   /** Self-declared tools: displayed with ✎, never rewarded. */
   declaredTools?: readonly string[];
+  /** Numeric GitHub user id: seeds the quest boards (never shown). Default 0. */
+  playerId?: number;
 }
 
 /** Aggregated, privacy-safe diagnostics (codes + counts + a few example keys). */
@@ -123,6 +125,12 @@ export function prepareEvents(
     out.set(event.key, event);
     hashes.set(event.key, hash);
   }
+  // The latest revision decides: activity that cannot be verified never earns anything.
+  for (const [key, event] of out)
+    if (event.verification.status === "unverifiable") {
+      diagnostics.add("unverifiable_event", key);
+      out.delete(key);
+    }
   return out;
 }
 

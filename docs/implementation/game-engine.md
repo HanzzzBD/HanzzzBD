@@ -38,11 +38,17 @@ The engine is pure: no I/O, no `Date.now`, no randomness (checked in tests by gr
 | 5. Private EXP | `exp.allocatePrivateExp` | `exp.private` per increase of the cumulative count |
 | 6. Objectives | `progression.recordObjectives` | `trial` entries (`objective.reviewed_merge`, `external_merge`, `peer_review`, `community_fix`, `release`) |
 | 7. Battles | `progression.awardBattles` | `star.victory`, `star.mvp` per effective day; weekly cap 5 |
-| 8. Seasons | `progression.progressSeasons` | First-time tier BP, `season.close` + `bp.season_end`, soft resets |
-| 9. Activity and battle BP | `progression.awardActivityAndBattleBp` | `bp.activity`, `bp.battle_victory`, `bp.battle_mvp`; weekly cap 700 |
-| 10. Level BP | `progression.awardLevelBp` | `bp.level_up` per level |
-| 11. Corrections | `progression.flagUnavailableSources` | `flag.source_unavailable` (amount 0) |
-| 12. Invariants and progress | `engine.assertInvariants`, `deriveProgress` | Throws on any invariant breach; returns level and rank progress |
+| 8. Seasons (no closure) | `progression.progressSeasons(ctx, false)` | First-time tier BP, soft resets, season timelines |
+| 9. Specialization | `heroes.evaluateSpecialization` | Hero unlocks, mastery, emblems, equipment (Phase 07) |
+| 10. Facts, quests, campaigns, medals | `facts.buildFacts`, `quests.runQuests`, `quests.runCampaigns`, `medals.runMedals` | Boards, completions, expiries, campaign steps, medals (Phase 08) |
+| 11. Season closure | `progression.progressSeasons(ctx, closureAllowed, archiveMeta)` | `season.close` with the frozen archive + `bp.season_end` |
+| 12. Campaigns and medals (post-closure) | `runCampaigns`, `runMedals` | Those that need a closed season |
+| 13. Activity and battle BP | `progression.awardActivityAndBattleBp` | `bp.activity`, `bp.battle_victory`, `bp.battle_mvp`; weekly cap 700 |
+| 14. Level BP | `progression.awardLevelBp` | `bp.level_up` per level |
+| 15. Corrections | `progression.flagUnavailableSources` | `flag.source_unavailable` (amount 0) |
+| 16. Invariants and views | `engine.assertInvariants`, `deriveProgress`, `seasons.seasonsView`, `seasons.scheduleView` | Throws on any invariant breach; returns progress, records and schedule |
+
+Step 1 also drops events whose latest revision is `unverifiable` (Phase 08, diagnostic `unverifiable_event`).
 
 ## 4. Ledger and duplicate prevention
 

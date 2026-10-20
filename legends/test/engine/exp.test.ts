@@ -3,6 +3,7 @@ import { type EngineInput, runEngine } from "../../src/engine/engine.ts";
 import type { LedgerEntry } from "../../src/engine/ledger.ts";
 import {
   type AnyEvent,
+  awards,
   BOT,
   CONFIG,
   commit,
@@ -82,7 +83,7 @@ describe("commit EXP (R-01)", () => {
 
   it("gives zero activity zero everything", () => {
     const out = run([]);
-    expect(out.newEntries).toEqual([]);
+    expect(awards(out.newEntries)).toEqual([]);
     expect(out.progress.lifetime).toMatchObject({ exp: 0, level: 1, bp: 0 });
     expect(out.progress.season?.rank.label).toBe("Initiate III");
   });
@@ -98,7 +99,7 @@ describe("anti-abuse qualification", () => {
       commit({ at: wib("2026-10-15"), actor: null }),
       commit({ at: wib("2026-10-15"), primary: false }),
     ]);
-    expect(out.newEntries).toEqual([]);
+    expect(awards(out.newEntries)).toEqual([]);
     for (const code of [
       "empty_commit",
       "merge_commit",
@@ -117,7 +118,7 @@ describe("anti-abuse qualification", () => {
       commit({ at: "2001-01-01T00:00:00Z" }),
       commit({ at: "2027-06-01T00:00:00Z", firstSeenAt: "2026-10-15T00:00:00Z" }),
     ]);
-    expect(out.newEntries).toEqual([]);
+    expect(awards(out.newEntries)).toEqual([]);
     expect(diag(out, "invalid_timestamp")).toBe(3);
   });
 
@@ -151,7 +152,7 @@ describe("anti-abuse qualification", () => {
 
   it("rejects events never merged into state (rev 0)", () => {
     const out = run([{ ...commit({ at: wib("2026-10-15") }), rev: 0 }]);
-    expect(out.newEntries).toEqual([]);
+    expect(awards(out.newEntries)).toEqual([]);
     expect(diag(out, "unmerged_event")).toBe(1);
   });
 
@@ -199,7 +200,7 @@ describe("anti-abuse qualification", () => {
         config: { ...CONFIG, automationRepos: ["gh:1"], excludeRepos: ["Sample-Player/Beta"] },
       },
     );
-    expect(out.newEntries).toEqual([]);
+    expect(awards(out.newEntries)).toEqual([]);
     expect(diag(out, "automation_declared")).toBe(1);
     expect(diag(out, "excluded_repo")).toBe(1);
   });
@@ -263,8 +264,10 @@ describe("PRs, reviews, issues and releases", () => {
 
   it("never rewards unmerged PRs or PRs by others", () => {
     expect(
-      run([pr({ mergedAt: null }), pr({ mergedAt: wib("2026-10-15"), authorIsPlayer: false })])
-        .newEntries,
+      awards(
+        run([pr({ mergedAt: null }), pr({ mergedAt: wib("2026-10-15"), authorIsPlayer: false })])
+          .newEntries,
+      ),
     ).toEqual([]);
   });
 
@@ -290,7 +293,7 @@ describe("PRs, reviews, issues and releases", () => {
   it("awards issues opened (after 24 h settling) and resolved, once each (STK-4)", () => {
     const created = wib("2026-10-20", "09:00");
     const settling = run([issue({ createdAt: wib("2026-10-24", "09:00") })]);
-    expect(settling.newEntries).toEqual([]);
+    expect(awards(settling.newEntries)).toEqual([]);
     const out = run([
       issue({ createdAt: created, closedAt: wib("2026-10-21", "09:00") }),
       issue({
@@ -372,8 +375,10 @@ describe("PRs, reviews, issues and releases", () => {
       verification: { status: "verified" as const, notes: [] },
     };
     expect(
-      run([runEvent, { ...runEvent, key: "run:gh:1:2" }, { ...runEvent, key: "run:gh:1:3" }])
-        .newEntries,
+      awards(
+        run([runEvent, { ...runEvent, key: "run:gh:1:2" }, { ...runEvent, key: "run:gh:1:3" }])
+          .newEntries,
+      ),
     ).toEqual([]);
   });
 

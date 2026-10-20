@@ -362,3 +362,11 @@ export function workflowRun(
     verification: { status: "verified", notes: [] },
   };
 }
+
+/** Period bookkeeping written on every run (quest boards, closures, expiries): not awards. */
+const BOOKKEEPING = new Set(["quest.board", "quest.period_closed", "quest.expired"]);
+
+/** Ledger entries other than quest bookkeeping: the awards and records a run produced. */
+export function awards<T extends { rule: string }>(entries: readonly T[]): T[] {
+  return entries.filter((e) => !BOOKKEEPING.has(e.rule));
+}

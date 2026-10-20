@@ -1,8 +1,10 @@
 import type { AnyEvent } from "../normalize/event.ts";
 import { allocateCommitExp, allocateOtherExp, allocatePrivateExp, type ExpContext } from "./exp.ts";
+import { buildFacts } from "./facts.ts";
 import { evaluateSpecialization, type SpecializationResult } from "./heroes/index.ts";
 import { type LedgerEntry, LedgerIndex } from "./ledger.ts";
 import { type LevelProgress, levelProgress } from "./level.ts";
+import { type MedalView, runMedals } from "./medals.ts";
 import {
   awardActivityAndBattleBp,
   awardBattles,
@@ -19,8 +21,17 @@ import {
   prepareEvents,
   qualifyCommits,
 } from "./qualify.ts";
+import { type CampaignView, runCampaigns } from "./quests/campaigns.ts";
+import { type QuestBoardsView, runQuests } from "./quests/engine.ts";
 import { type RankPosition, rankFromStars, type TrialProgress, tierEntries } from "./rank.ts";
 import { RULESET_V1, type Ruleset, type TierRule } from "./rules.ts";
+import {
+  archiveMetaFor,
+  type ScheduleView,
+  type SeasonsView,
+  scheduleView,
+  seasonsView,
+} from "./seasons.ts";
 import { assertSeason1Start, dayOf, daysBetween, isoWeek, parseInstant } from "./time.ts";
 
 export interface EngineInput {
@@ -79,6 +90,16 @@ export interface EngineOutput {
   progress: Progress;
   /** Heroes, mastery, emblems and equipment. */
   specialization: SpecializationResult;
+  /** Today's daily board, this week's boards, Dedication and season contracts. */
+  quests: QuestBoardsView;
+  /** Milestone campaigns (one-time, never expire). */
+  campaigns: CampaignView[];
+  /** Medal book: one row per medal tier (repeatable medals: per season). */
+  medals: MedalView[];
+  /** Lifetime, current-season and archived-season records. */
+  records: SeasonsView;
+  /** Day/week/season boundaries and periods waiting to close. */
+  schedule: ScheduleView;
 }
 
 /**
@@ -117,7 +138,7 @@ export function runEngine(input: EngineInput): EngineOutput {
   // 2. Seasonal progression.
   recordObjectives(events, ctx);
   awardBattles(ctx);
-  const seasons = progressSeasons(ctx, input.closureAllowed);
+  const openSeasons = progressSeasons(ctx, false);
   // 3. Specialization (heroes, mastery, emblems, equipment) and its milestone BP.
   const specialization = evaluateSpecialization(
     ledger,
@@ -127,10 +148,31 @@ export function runEngine(input: EngineInput): EngineOutput {
     input.runAt,
     diagnostics,
   );
-  // 4. Battle Points (activity BP includes the active emblem's bonus).
+  // 4. Quests, campaigns and medals over verified facts. Seasons close only after this
+  //    step, so the archive includes the quests and medals earned inside the season.
+  const facts = buildFacts(ledger.entries, prepared, specialization, input.config, rules);
+  const quests = runQuests({
+    ctx,
+    facts,
+    spec: specialization,
+    seasons: openSeasons,
+    closureAllowed: input.closureAllowed,
+    playerId: input.config.playerId ?? 0,
+  });
+  runCampaigns({ ctx, facts, spec: specialization, seasons: openSeasons });
+  runMedals({ ctx, facts, spec: specialization, seasons: openSeasons });
+  // 5. Season closure (frozen archive) and the medals and campaigns that depend on it.
+  const seasons = progressSeasons(
+    ctx,
+    input.closureAllowed,
+    archiveMetaFor(ctx, facts, specialization),
+  );
+  const campaigns = runCampaigns({ ctx, facts, spec: specialization, seasons });
+  const medals = runMedals({ ctx, facts, spec: specialization, seasons });
+  // 6. Battle Points (activity BP includes the active emblem's bonus).
   awardActivityAndBattleBp(ctx, specialization.emblems.bonusPercent);
   awardLevelBp(ctx);
-  // 5. Corrections.
+  // 7. Corrections.
   flagUnavailableSources(new Set(prepared.keys()), new Set(input.unavailableKeys ?? []), ctx);
 
   const newEntries = ledger.entries.slice(existing.length);
@@ -144,6 +186,19 @@ export function runEngine(input: EngineInput): EngineOutput {
     seasons,
     specialization,
     progress: deriveProgress(ledger.entries, seasons, rules, input.config, runMs),
+    quests,
+    campaigns,
+    medals,
+    records: seasonsView(
+      ledger.entries,
+      seasons,
+      facts,
+      specialization,
+      rules,
+      input.config,
+      runMs,
+    ),
+    schedule: scheduleView(ledger.entries, rules, input.config, runMs, input.runAt),
   };
 }
 
