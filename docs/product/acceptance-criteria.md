@@ -19,7 +19,7 @@
 | AC-CORE-06 **[P0]** | Given a commit on a non-default branch, then it earns nothing until it appears on the default branch, and then it earns exactly once. |
 | AC-CORE-07 **[P0]** | Given the same PR returned by two different queries (search and per-repo list), then exactly one `pr.merged` award exists (keyed by `node_id`). |
 | AC-CORE-08 **[P0]** | Given every ledger entry, then it has a non-empty `ruleId`, `ruleVersion`, at least one `sourceKey` or `periodId`, and a kind from the allowed set. |
-| AC-CORE-09 **[P0]** | Given 15 qualifying commits on one player day, then commit EXP that day totals 100, and 5 entries carry reason `capped` with amount 0. |
+| AC-CORE-09 **[P0]** | Given 15 qualifying commits on one player day, then commit EXP that day totals 75 (commits 1–5 earn 10, 6–10 earn 5, 11–15 earn 0), and commits 11–15 carry reason `capped` with amount 0. (GDD R-01) |
 | AC-CORE-10 **[P0]** | Given a commit with author date 10 days ago that is first seen today, then it earns lifetime EXP, but its effective date is (today − 48 h), and it does not count toward any closed day's battle or quest. |
 | AC-CORE-11 **[P0]** | Given a repository that existed in an earlier run and has since been deleted, then its previous awards remain, are flagged `source_unavailable`, and no rendered output names it. |
 | AC-CORE-12 **[P0]** | Given the GitHub API returns errors for a data source during a run, then no awards are made from partial data for that source, the README footer reports the stale state, and the job exits non-zero. |
@@ -46,7 +46,7 @@
 | AC-SYS02-01 **[P0]** | Cumulative EXP 2,699 → level 9; 2,700 → level 10; 23,200 → level 30; 63,700 → level 50. |
 | AC-SYS02-02 **[P0]** | Lifetime EXP ≥ 252,450 → level 100, with the overflow shown. |
 | AC-SYS02-03 **[P0]** | Going from level 8 to 11 in one run creates three level-up awards of 25 BP plus one 100 BP award for level 10. |
-| AC-SYS02-04 **[P0]** | A merged PR to a repo the player does not own earns 60 EXP. A merged self-owned PR with no review from another user earns 30 EXP. |
+| AC-SYS02-04 **[P0]** | A merged PR to a repo the player does not own, or one with an approving review from another human, earns 60 EXP. A self-merged PR with no such review earns 15 EXP, and only 2 per day are rewarded. (GDD R-02) |
 | AC-SYS02-05 **[P0]** | Three reviews by the player on the same PR earn exactly one `pr.review` award (25 EXP). |
 | AC-SYS02-06 **[P0]** | Displayed EXP equals the sum of ledger EXP entries. |
 
@@ -54,7 +54,7 @@
 
 | ID | Criterion |
 | --- | --- |
-| AC-SYS03-01 **[P0]** | Season stars 0 → Initiate III; 9 → Squire III; 18 → Knight III; 30 → Warden III; 42 → Champion III; 57 → Paragon III; 72 → Ascendant; 92 → Eternal (0 stars shown); 100 → Eternal ★8. |
+| AC-SYS03-01 **[P0]** | With all promotion trials completed: season stars 0 → Initiate III; 9 → Squire III; 18 → Knight III; 30 → Warden III; 42 → Champion III; 57 → Paragon III; 72 → Ascendant; 92 → Eternal (0 stars shown); 100 → Eternal ★8. |
 | AC-SYS03-02 **[P0]** | In a 30-day period with no activity, rank and stars do not change. |
 | AC-SYS03-03 **[P0]** | Reaching Knight for the first time in a season awards 50 BP once; reaching it again in the same season (impossible without demotion) or rerunning awards nothing. |
 
@@ -90,10 +90,10 @@
 
 | ID | Criterion |
 | --- | --- |
-| AC-SYS07-01 | With Integrator active, a merged PR worth 60 EXP gives activity BP floor(12 × 1.15) = 13; quest, medal and milestone BP are unaffected. (Rounding rule: floor after the multiplier.) |
+| AC-SYS07-01 | With the Backend emblem active, a commit worth 10 EXP in a repo with BE weight ≥ 0.5 gives activity BP floor(2 × 1.15) = 2, and a merged contested PR (60 EXP) in such a repo gives floor(12 × 1.15) = 13. Quest, medal and milestone BP are unaffected. (Rounding: floor after the multiplier; GDD §D.4) |
 | AC-SYS07-02 | Changing the active emblem 3 days after the last change is ignored, with a warning. |
 | AC-SYS07-03 | Selecting an emblem the player does not own leaves the previous emblem active. |
-| AC-SYS07-04 | Workflow runs triggered by `schedule` or by a bot actor do not count toward the Operator emblem. |
+| AC-SYS07-04 | Workflow runs triggered by `schedule` or by a bot actor do not count toward DevOps emblem points. |
 
 ## AC-SYS08 — Equipment (P1)
 
@@ -122,7 +122,7 @@
 | ID | Criterion |
 | --- | --- |
 | AC-SYS10-01 **[P0]** | Every earned medal stores at least one evidence key and an earned-on date equal to the date of the qualifying event. |
-| AC-SYS10-02 **[P0]** | The bronze tier of "Commits" (100) is awarded exactly once; reruns and backfill do not repeat it. |
+| AC-SYS10-02 **[P0]** | Tier I of "Committed" (100 commits that earned EXP) is awarded exactly once; reruns and backfill do not repeat it. |
 | AC-SYS10-03 **[P0]** | A medal cannot be granted from the config. Hiding a medal only removes it from the README. |
 | AC-SYS10-04 **[P0]** | Medal and README labels never use the word "Achievements". The hand-written "🏆 Achievements" section is byte-identical after every run. |
 | AC-SYS10-05 **[P0]** | Hidden medals render as "???" until earned. |
@@ -132,7 +132,7 @@
 | ID | Criterion |
 | --- | --- |
 | AC-SYS11-01 **[P0]** | Season closure runs once, at least 48 h after the season ends. A second run creates no new season-end awards. |
-| AC-SYS11-02 **[P0]** | Soft reset: Eternal → Paragon III (57 stars); Ascendant → Champion III; Paragon → Warden III; Champion → Knight III; Warden → Squire III; Knight or lower → Initiate III. |
+| AC-SYS11-02 **[P0]** | Soft reset (−3 tiers): Eternal → Champion III (42 stars); Ascendant → Warden III (30); Paragon → Knight III (18); Champion → Squire III (9); Warden or lower → Initiate III (0). (GDD R-06) |
 | AC-SYS11-03 **[P0]** | Peak-tier season BP matches the PRD table and a permanent season badge with the peak tier is recorded. |
 | AC-SYS11-04 **[P0]** | If the generator does not run for 5 days across a season boundary, the next run closes the old season once and opens the new one with the correct reset rank. |
 
@@ -149,7 +149,7 @@
 
 | ID | Criterion |
 | --- | --- |
-| AC-SYS13-01 **[P0]** | Day score 29 → Skirmish, 0 stars; 30 → Victory, +1 star, 15 BP; 120 with a merged PR → MVP, +2 stars, 30 BP; 120 with commits only → Victory. |
+| AC-SYS13-01 **[P0]** | Day score 29 → Skirmish, 0 stars; 30 → Victory, +1 star, 15 BP; 100 with a contested objective → MVP, +2 stars, 30 BP; 150 from commits and self-merged PRs only → Victory. (GDD R-03) |
 | AC-SYS13-02 **[P0]** | A day with no qualifying activity creates no battle entry. |
 | AC-SYS13-03 **[P0]** | Battles older than 90 days remain in history after the API no longer returns their events. |
 | AC-SYS13-04 **[P0]** | A highlight from a private repository never renders. |
@@ -183,6 +183,20 @@
 | AC-SYS16-07 **[P0]** | If the last successful data refresh is more than 3 days old, the footer shows the stale-data warning with the date. |
 | AC-SYS16-08 **[P0]** | A section disabled in config does not render, and other sections are unaffected. |
 | AC-SYS16-09 **[P0]** | The footer contains the provenance legend and a link to the "How it works" page. |
+
+## AC-GDD — Rules added by the Game Design Document (v0.1)
+
+| ID | Criterion |
+| --- | --- |
+| AC-GDD-01 **[P0]** | Given 8 Victory days in one ISO week, then only 5 stars are added and the rest are recorded as `overflow`. |
+| AC-GDD-02 **[P0]** | Given 50 season stars and 2 objectives (1 contested), then rank is Warden I (41 stars) with 9 banked stars; when a third objective lands, rank becomes Champion II immediately. |
+| AC-GDD-03 **[P0]** | Given a repo where the player's commits fall within the same ±2-minute window on ≥ 10 of the last 30 days (≥ 80% of commits), then the repo is automation-flagged, new commits there earn 0 EXP and 0 battle score, past awards are kept, and the flag clears when the pattern stops. |
+| AC-GDD-04 **[P0]** | Given a commit with the same fingerprint (normalised message, additions, deletions, changed files) as an already-awarded commit in the same repo within 30 days, then it is marked `duplicate` and earns 0. |
+| AC-GDD-05 **[P0]** | A peer review on a PR authored by an account created < 30 days earlier is not a contested objective. |
+| AC-GDD-06 **[P0]** | A release with < 3 qualifying commits since the previous release in that repo is not an objective. |
+| AC-GDD-07 P1 | Full-stack emblem points equal 2 × min(Frontend EP, Backend EP). |
+| AC-GDD-08 P1 | An item with only topic evidence is shown as Tagged and cannot occupy a Verified build slot. |
+| AC-GDD-09 **[P0]** | No milestone campaign step has a condition identical to a medal condition (catalog lint, STK-11). |
 
 ## MVP acceptance gate
 

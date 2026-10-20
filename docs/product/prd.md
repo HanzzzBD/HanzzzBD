@@ -5,6 +5,7 @@
 - **Inputs:** `docs/discovery/repository-audit.md`, `docs/discovery/feasibility-analysis.md`, `docs/discovery/risks-and-constraints.md`, `docs/discovery/decision-register.md`
 - **Companion docs:** `feature-catalog.md` (feature IDs and priorities), `acceptance-criteria.md` (testable criteria), `decision-register.md` (product decisions)
 - **Status:** draft for owner review. No implementation.
+- **Superseded values:** `docs/game-design/game-design-document.md` §0.2 (revisions R-01 to R-12) supersedes this PRD where the two differ: commit EXP curve, self-merge EXP, MVP rule, weekly star cap, promotion trials, soft-reset depth, emblems, medal rarity, equipment detection, quest types, map regions and ally verification.
 
 ---
 
