@@ -129,7 +129,7 @@ async function hero() {
   const h7 = await fontFace(HUD, 700, uniq(info.map((i) => i[1])));
 
   const ex = 960, ey = 160;
-  const portrait = await asset("gusion.jpg"); // Gusion, default skin portrait
+  const portrait = `data:image/jpeg;base64,${(await readFile(join(ROOT, "tools", "hadrian.jpg"))).toString("base64")}`; // my own photo
   const roleIcon = await asset("assassin.png");
   const pw = 222, ph = 360, px = ex - pw / 2;
   const roleEls = roles

@@ -36,6 +36,6 @@
 
 <img src="./assets/footer.svg" width="100%" alt="Victory. Thanks for stopping by, see you in the Land of Dawn." />
 
-<sub>Mobile Legends: Bang Bang assets (rank icons, hero icons, Gusion portrait, item icons, turret, MVP badge, Battle Points and gold icons, Land of Dawn map) belong to Moonton. This is a fan-made profile, not affiliated with or endorsed by Moonton.</sub>
+<sub>Mobile Legends: Bang Bang assets (rank icons, hero icons, item icons, turret, MVP badge, Battle Points and gold icons, Land of Dawn map) belong to Moonton. This is a fan-made profile, not affiliated with or endorsed by Moonton.</sub>
 
 </div>
