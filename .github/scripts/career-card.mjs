@@ -4,7 +4,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { pathToFileURL } from "node:url";
-import { C, cham, fetchTotal, fontFace, FONT_CSS, rankFor, rankIcon, uniq } from "./rank-card.mjs";
+import { C, cham, fetchTotal, fontFace, FONT_CSS, headBar, rankFor, rankIcon, screenBg, screenDefs, screenFrame, uniq } from "./rank-card.mjs";
 
 const ROW = "#15224a";
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
@@ -168,7 +168,7 @@ export async function renderCareerCard(stats, last365) {
   kpis.forEach((k, i) => {
     const x = 48 + i * (kw + 16);
     kpiEls += `<g class="rise" style="animation-delay:${(0.15 + i * 0.1).toFixed(2)}s">
-  <path d="${cham(x, ky, kw, kh, 14)}" fill="${C.panel}" stroke="${k.hot ? C.gold : C.line}" stroke-opacity="${k.hot ? 0.8 : 1}"/>
+  <path d="${cham(x, ky, kw, kh, 14)}" fill="url(#mbPanel)" stroke="${k.hot ? C.gold : C.edge}" stroke-opacity="${k.hot ? 0.8 : 0.45}"/>
   <rect x="${x + 14}" y="${ky}" width="48" height="3" fill="${C.gold}"/>
   <text class="h6" x="${x + 24}" y="${ky + 36}" font-size="13" letter-spacing="3" fill="${C.muted}">${k.label}</text>
   <text class="d" x="${x + 24}" y="${ky + 104}" font-size="60" fill="${k.hot ? C.gold : C.cream}">${esc(k.value)}${k.unit ? `<tspan class="h7" font-size="18" dx="8" letter-spacing="2" fill="${C.muted}">${k.unit}</tspan>` : ""}</text>
@@ -239,10 +239,11 @@ ${FONT_CSS}
 @media (prefers-reduced-motion: reduce){*{animation:none!important}.rise,.fade,.badge{opacity:1}.bar{transform:none}}
 </style>
 <defs>
+  ${screenDefs(W, H, 24)}
   <clipPath id="langBar"><rect x="${barX}" y="${py + 50}" width="0" height="18"><animate attributeName="width" from="0" to="${barW}" dur="1.1s" begin=".6s" fill="freeze" calcMode="spline" keySplines=".2 .8 .2 1" keyTimes="0;1"/></rect></clipPath>
 </defs>
-<path d="${cham(0.75, 0.75, W - 1.5, H - 1.5, 28)}" fill="${C.bg}" stroke="${C.line}" stroke-width="1.5"/>
-<rect x="48" y="52" width="10" height="34" fill="${C.gold}"/>
+${screenBg(W, H, 24)}
+${headBar(48, 54, 280, 42)}
 <text class="t" x="70" y="84" font-size="26" fill="${C.cream}">MATCH HISTORY</text>
 <text class="h6" x="70" y="110" font-size="15" letter-spacing="4" fill="${C.muted}">CLASSIC &amp; RANKED // PUBLIC REPOS</text>
 ${cer.map((c, i) => medal(c, 352 + i * 126, 38)).join("")}
@@ -252,17 +253,18 @@ ${cer.map((c, i) => medal(c, 352 + i * 126, 38)).join("")}
 ${kpiEls}
 <g class="rise" style="animation-delay:.2s">${spark}</g>
 <g class="rise" style="animation-delay:.4s">
-  <path d="${cham(48, py, lw, ph, 14)}" fill="${C.panel}" stroke="${C.line}"/>
+  <path d="${cham(48, py, lw, ph, 14)}" fill="url(#mbPanel)" stroke="${C.edge}" stroke-opacity=".45"/>
   <text class="h7" x="72" y="${py + 34}" font-size="13" letter-spacing="3" fill="${C.gold}">BATTLE STATS</text>
 </g>
 ${rowEls}
 <g class="rise" style="animation-delay:.5s">
-  <path d="${cham(lx, py, lwR, ph, 14)}" fill="${C.panel}" stroke="${C.line}"/>
+  <path d="${cham(lx, py, lwR, ph, 14)}" fill="url(#mbPanel)" stroke="${C.edge}" stroke-opacity=".45"/>
   <text class="h7" x="${barX}" y="${py + 34}" font-size="13" letter-spacing="3" fill="${C.gold}">EMBLEM // LANGUAGES</text>
   <rect x="${barX}" y="${py + 54}" width="${barW}" height="10" fill="${C.line}"/>
   <g clip-path="url(#langBar)">${segs}</g>
 </g>
 ${langEls}
+${screenFrame(W, H, 24)}
 </svg>`;
 }
 

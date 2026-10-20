@@ -11,7 +11,7 @@
   <linearGradient id="fadeL" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".12" stop-color="#fff"/><stop offset=".88" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
   <mask id="m"><rect x="20" y="0" width="510" height="28" fill="url(#fadeL)"/><rect x="670" y="0" width="510" height="28" fill="url(#fadeL)"/></mask>
 </defs>
-<g mask="url(#m)"><g class="ticker"><text class="h6" x="0" y="18" font-size="11" letter-spacing="4" textLength="1400" lengthAdjust="spacing" fill="#8c98b8">LAND OF DAWN  ·  GOLD LANE  ·  MID LANE  ·  EXP LANE  ·  JUNGLE  ·  ROAM  ·  LORD  ·  TURTLE  ·  BASE  ·  </text><text class="h6" x="1400" y="18" font-size="11" letter-spacing="4" textLength="1400" lengthAdjust="spacing" fill="#8c98b8">LAND OF DAWN  ·  GOLD LANE  ·  MID LANE  ·  EXP LANE  ·  JUNGLE  ·  ROAM  ·  LORD  ·  TURTLE  ·  BASE  ·  </text></g></g>
-<path d="M540 14H574M626 14H660" stroke="#f0b84a" stroke-width="2"/>
-<g transform="rotate(45 600 14)"><rect class="dm" x="593" y="7" width="14" height="14" fill="#f0b84a"/></g>
+<g mask="url(#m)"><g class="ticker"><text class="h6" x="0" y="18" font-size="11" letter-spacing="4" textLength="1400" lengthAdjust="spacing" fill="#8ea8d9">LAND OF DAWN  ·  GOLD LANE  ·  MID LANE  ·  EXP LANE  ·  JUNGLE  ·  ROAM  ·  LORD  ·  TURTLE  ·  BASE  ·  </text><text class="h6" x="1400" y="18" font-size="11" letter-spacing="4" textLength="1400" lengthAdjust="spacing" fill="#8ea8d9">LAND OF DAWN  ·  GOLD LANE  ·  MID LANE  ·  EXP LANE  ·  JUNGLE  ·  ROAM  ·  LORD  ·  TURTLE  ·  BASE  ·  </text></g></g>
+<path d="M540 14H574M626 14H660" stroke="#f6c453" stroke-width="2"/>
+<g transform="rotate(45 600 14)"><rect class="dm" x="593" y="7" width="14" height="14" fill="#f6c453"/></g>
 </svg>

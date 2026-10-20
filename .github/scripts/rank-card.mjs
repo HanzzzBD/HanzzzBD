@@ -8,9 +8,11 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const RANKS_DIR = join(dirname(fileURLToPath(import.meta.url)), "..", "mlbb", "ranks");
 
+// The Project NEXT lobby palette: royal blue screens, lighter blue panel edges, gold trim and buttons.
 export const C = {
-  bg: "#0a1124", panel: "#111c38", line: "#26365f", gold: "#f0b84a", red: "#ff4d5e",
-  cream: "#f4ead5", muted: "#8c98b8", soft: "#bcc6dd", cyan: "#38d4ff",
+  bg: "#0a1c46", bg2: "#123a85", panel: "#102a62", panelHi: "#1a3f88", line: "#2c5299", edge: "#5f93e8",
+  gold: "#f6c453", goldDeep: "#c98a22", red: "#ff4d5e", redDeep: "#7a1424",
+  cream: "#f5f8ff", muted: "#8ea8d9", soft: "#c3d4f4", cyan: "#62d8ff",
 };
 
 // Contributions needed to reach each tier. Below Mythic every tier is split into divisions (V..I)
@@ -69,7 +71,56 @@ export async function fontFace(family, weight, text) {
   return `@font-face{font-family:'${family}';font-weight:${weight};src:url(data:font/woff2;base64,${buf.toString("base64")}) format('woff2')}`;
 }
 export const uniq = (strings) => [...new Set(strings.join("").split(""))].join("");
-export const cham = (x, y, w, h, c) => `M${x + c} ${y}H${x + w}V${y + h - c}L${x + w - c} ${y + h}H${x}V${y + c}Z`;
+// MLBB panels: all four corners notched, like the lobby and StarLight frames.
+export const cham = (x, y, w, h, c = 12) => `M${x + c} ${y}H${x + w - c}L${x + w} ${y + c}V${y + h - c}L${x + w - c} ${y + h}H${x + c}L${x} ${y + h - c}V${y + c}Z`;
+
+// ---------- Project NEXT chrome, shared by every card ----------
+// Gradients and the screen clip; every card puts this in its <defs> once. Ids carry an "mb" prefix.
+export const screenDefs = (W, H, c = 14) => `<clipPath id="mbClip"><path d="${cham(0, 0, W, H, c)}"/></clipPath>
+<linearGradient id="mbBg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${C.bg2}"/><stop offset=".5" stop-color="#0e2964"/><stop offset="1" stop-color="${C.bg}"/></linearGradient>
+<radialGradient id="mbGlow" cx=".5" cy="0" r=".75"><stop offset="0" stop-color="#5b9bff" stop-opacity=".38"/><stop offset="1" stop-color="#5b9bff" stop-opacity="0"/></radialGradient>
+<linearGradient id="mbBeam" x1="0" x2="1"><stop offset="0" stop-color="#a9cbff" stop-opacity="0"/><stop offset=".5" stop-color="#a9cbff" stop-opacity=".1"/><stop offset="1" stop-color="#a9cbff" stop-opacity="0"/></linearGradient>
+<linearGradient id="mbGold" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fff1bd"/><stop offset=".45" stop-color="${C.gold}"/><stop offset="1" stop-color="${C.goldDeep}"/></linearGradient>
+<linearGradient id="mbPanel" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="${C.panelHi}" stop-opacity=".9"/><stop offset="1" stop-color="${C.panel}" stop-opacity=".9"/></linearGradient>
+<linearGradient id="mbHead" x1="0" x2="1"><stop offset="0" stop-color="#2d6ad6"/><stop offset=".7" stop-color="#2d6ad6" stop-opacity=".25"/><stop offset="1" stop-color="#2d6ad6" stop-opacity="0"/></linearGradient>`;
+
+// The lobby backdrop: royal-blue gradient, a glow from the top and two diagonal light beams.
+export const screenBg = (W, H, c = 14) => `<path d="${cham(0, 0, W, H, c)}" fill="url(#mbBg)"/>
+<g clip-path="url(#mbClip)"><ellipse cx="${W / 2}" cy="0" rx="${W * 0.6}" ry="${H * 0.9}" fill="url(#mbGlow)"/>
+<polygon points="${W * 0.18},0 ${W * 0.3},0 ${W * 0.12},${H} ${W * 0.0},${H}" fill="url(#mbBeam)"/><polygon points="${W * 0.62},0 ${W * 0.7},0 ${W * 0.56},${H} ${W * 0.48},${H}" fill="url(#mbBeam)"/></g>`;
+
+// Double border (light-blue edge, faint gold inner line), a gold bracket and diamond on each notched
+// corner, and a crest on the top edge.
+export const screenFrame = (W, H, c = 14) => {
+  const k = c + 26, e = 1.5;
+  const corner = (sx, sy) => {
+    const X = (d) => (sx ? W - d : d), Y = (d) => (sy ? H - d : d);
+    return `<path d="M${X(k)} ${Y(e)}H${X(c + 1)}L${X(e)} ${Y(c + 1)}V${Y(k)}" fill="none" stroke="url(#mbGold)" stroke-width="3"/>${diamond(X(c / 2 + 3), Y(c / 2 + 3), 3.5, C.gold)}`;
+  };
+  return `<path d="${cham(0.75, 0.75, W - 1.5, H - 1.5, c)}" fill="none" stroke="${C.edge}" stroke-opacity=".6" stroke-width="1.5"/>
+<path d="${cham(5.5, 5.5, W - 11, H - 11, c - 2)}" fill="none" stroke="${C.gold}" stroke-opacity=".28"/>
+${corner(0, 0)}${corner(1, 0)}${corner(0, 1)}${corner(1, 1)}
+<g transform="translate(${W / 2} 1.5)"><path d="M-60 0H60" stroke="url(#mbGold)" stroke-width="2"/><rect x="-6" y="-6" width="12" height="12" transform="rotate(45)" fill="url(#mbGold)"/><rect x="-2.5" y="-2.5" width="5" height="5" transform="rotate(45)" fill="${C.bg}"/></g>`;
+};
+
+// A small diamond, the ornament MLBB hangs on the ends of its title rules.
+export const diamond = (x, y, r, fill) => `<rect x="${x - r}" y="${y - r}" width="${2 * r}" height="${2 * r}" transform="rotate(45 ${x} ${y})" fill="${fill}"/>`;
+
+// Centred serif title between two rules, like "—◆ Hadiah StarLight ◆—". gap is half the title's width.
+export const ornTitle = (cx, y, text, { size = 30, gap = 140, span = 120, cls = "t", fill = C.cream } = {}) =>
+  `<text class="${cls}" x="${cx}" y="${y}" text-anchor="middle" font-size="${size}" fill="${fill}">${text}</text>
+<g stroke="${C.edge}" stroke-opacity=".7"><path d="M${cx - gap - span} ${y - size * 0.33}H${cx - gap}M${cx + gap} ${y - size * 0.33}H${cx + gap + span}"/></g>
+${diamond(cx - gap - span, y - size * 0.33, 3, C.edge)}${diamond(cx + gap + span, y - size * 0.33, 3, C.edge)}${diamond(cx - gap + 8, y - size * 0.33, 3.5, C.gold)}${diamond(cx + gap - 8, y - size * 0.33, 3.5, C.gold)}`;
+
+// Panel header strip: a blue bar fading to the right with a gold notch, like "Dapatkan Langsung".
+export const headBar = (x, y, w, h = 30) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#mbHead)"/><rect x="${x}" y="${y}" width="4" height="${h}" fill="url(#mbGold)"/><rect x="${x}" y="${y + h - 1}" width="${w}" height="1" fill="${C.edge}" opacity=".35"/>`;
+
+// A blue in-game panel: gradient body, light-blue edge and a brighter top line.
+export const panel = (x, y, w, h, c = 8, hot = false) =>
+  `<path d="${cham(x, y, w, h, c)}" fill="url(#mbPanel)" stroke="${hot ? C.gold : C.edge}" stroke-opacity="${hot ? 0.9 : 0.45}"/><rect x="${x + c}" y="${y + 1}" width="${w - 2 * c}" height="1.5" fill="#bcd6ff" opacity=".35"/>`;
+
+// The dark rounded pill MLBB shows currencies in.
+export const pill = (x, y, w, h) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}" fill="#06143a" fill-opacity=".75" stroke="${C.edge}" stroke-opacity=".35"/>`;
 
 // Shared font classes: .t is Cinzel (the gold serif of MLBB's headings), .d the condensed number face.
 export const FONT_CSS = `.t{font-family:'Cinzel',Georgia,serif;font-weight:900}
@@ -132,13 +183,14 @@ ${FONT_CSS}
 @media (prefers-reduced-motion: reduce){*{animation:none!important}.em{opacity:1}.bar{transform:none}}
 </style>
 <defs>
+  ${screenDefs(W, H, 16)}
   <radialGradient id="g"><stop offset="0" stop-color="${tier.color}" stop-opacity=".45"/><stop offset="1" stop-color="${tier.color}" stop-opacity="0"/></radialGradient>
   <linearGradient id="shine" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".5"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
   <clipPath id="barClip"><rect x="${barX}" y="134" width="${fill}" height="6"/></clipPath>
 </defs>
-<path d="${cham(0.75, 0.75, W - 1.5, H - 1.5, 16)}" fill="${C.bg}" stroke="${C.line}" stroke-width="1.5"/>
-<rect x="20" y="20" width="4" height="16" fill="${C.gold}"/>
-<text class="h7" x="32" y="33" font-size="13" letter-spacing="3" fill="${C.cream}">RANKED</text>
+${screenBg(W, H, 16)}
+${headBar(12, 16, 220, 24)}
+<text class="h7" x="26" y="33" font-size="13" letter-spacing="3" fill="${C.cream}">RANKED</text>
 <text class="h6" x="380" y="33" text-anchor="end" font-size="11" letter-spacing="2" fill="${C.muted}">LAST 365 DAYS</text>
 <circle class="glow" cx="${ex}" cy="${ey}" r="60" fill="url(#g)"/>
 <g class="em"><image href="${await rankIcon(r.t)}" x="${ex - 58}" y="${ey - 58}" width="116" height="116"><title>${r.name}</title></image></g>
@@ -152,6 +204,7 @@ ${stars}
 <text class="h7" x="${starLabelX}" y="165" font-size="13" letter-spacing="1" fill="${C.cream}">${starText}</text>
 <text class="h6" x="380" y="182" text-anchor="end" font-size="11" letter-spacing="1.5" fill="${C.muted}">${nextText}</text>
 ${ladder}
+${screenFrame(W, H, 16)}
 </svg>`;
 }
 

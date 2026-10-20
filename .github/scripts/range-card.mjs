@@ -7,7 +7,7 @@
 import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { C, cham, fontFace, FONT_CSS, uniq } from "./rank-card.mjs";
+import { C, cham, fontFace, FONT_CSS, headBar, screenDefs, screenFrame, uniq } from "./rank-card.mjs";
 
 const MONTHS = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 const ASSETS = join(dirname(fileURLToPath(import.meta.url)), "..", "mlbb");
@@ -196,6 +196,7 @@ ${FONT_CSS}
 @media (prefers-reduced-motion: reduce){.fx{display:none}}
 </style>
 <defs>
+  ${screenDefs(W, H, 28)}
   <clipPath id="card"><path d="${frame}"/></clipPath>
   <clipPath id="headclip"><circle cx="0" cy="-8" r="8"/></clipPath>
   ${heroes.defs}
@@ -207,8 +208,8 @@ ${FONT_CSS}
   <image href="${bg}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice" opacity=".9"/>
   <rect width="${W}" height="${H}" fill="url(#shade)"/>
 </g>
-<path d="${frame}" fill="none" stroke="${C.line}" stroke-width="1.5"/>
-<rect x="${x0}" y="52" width="10" height="34" fill="${C.gold}"/>
+${screenFrame(W, H, 28)}
+${headBar(x0, 50, 320, 44)}
 <text class="t" x="${x0 + 22}" y="82" font-size="32" fill="${C.cream}">LAND OF DAWN</text>
 <text class="h6" x="${x0 + 22}" y="106" font-size="14" letter-spacing="4" fill="${C.muted}">CLASSIC // GOLD LANE  ·  LAST 52 WEEKS</text>
 ${statEls}

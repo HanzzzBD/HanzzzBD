@@ -39,17 +39,19 @@ ${FONT_CSS}
   <clipPath id="eye"><path d="M15 30Q30 15 45 30Q30 45 15 30Z"/></clipPath>
   <linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
   <linearGradient id="gold" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ffd77a"/><stop offset="1" stop-color="#c98a22"/></linearGradient>
+  <linearGradient id="tab" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2459c0"/><stop offset="1" stop-color="#11307a"/></linearGradient>
 </defs>
 <g clip-path="url(#c)">
-  <rect width="${W}" height="${H}" fill="${C.panel}"/>
+  <rect width="${W}" height="${H}" fill="url(#tab)"/>
+  <rect x="60" y="1" width="${W - 60}" height="1.5" fill="#bcd6ff" opacity=".45"/>
   <rect width="60" height="${H}" fill="url(#gold)"/>
   <path d="M15 30Q30 15 45 30Q30 45 15 30Z" fill="${C.bg}"/>
   <g clip-path="url(#eye)"><g class="look"><circle cx="30" cy="30" r="6.5" fill="${C.gold}"/><circle cx="30" cy="30" r="2.6" fill="${C.bg}"/></g></g>
   <rect x="60" y="${H - 3}" width="${W - 60}" height="3" fill="${C.gold}" opacity=".5"/>
   <rect x="-80" y="0" width="80" height="${H}" fill="url(#s)" transform="skewX(-20)"><animate attributeName="x" values="-80;${W + 80}" dur="3.5s" begin="1.2s" repeatCount="indefinite"/></rect>
 </g>
-<path d="${cham(0.75, 0.75, W - 1.5, H - 1.5, 12)}" fill="none" stroke="${C.line}" stroke-width="1.5"/>
-<text class="h6" x="76" y="24" font-size="11" letter-spacing="3" fill="${C.muted}">${label}</text>
+<path d="${cham(0.75, 0.75, W - 1.5, H - 1.5, 12)}" fill="none" stroke="${C.edge}" stroke-opacity=".7" stroke-width="1.5"/>
+<text class="h6" x="76" y="24" font-size="11" letter-spacing="3" fill="${C.cyan}">${label}</text>
 <text class="d" x="76" y="47" font-size="23" letter-spacing="1.5" fill="${C.cream}">${value}<tspan font-size="14" dx="6" letter-spacing="2" fill="${C.muted}">VIEWS</tspan></text>
 <g class="blink"><circle cx="${W - 44}" cy="30" r="3.5" fill="${C.cyan}"/><text class="h6" x="${W - 36}" y="34" font-size="11" letter-spacing="2" fill="${C.cyan}">LIVE</text></g>
 </svg>`;

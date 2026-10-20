@@ -5,7 +5,7 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { pathToFileURL } from "node:url";
-import { C, cham, fontFace, uniq } from "./rank-card.mjs";
+import { C, cham, fontFace, headBar, screenBg, screenDefs, screenFrame, uniq } from "./rank-card.mjs";
 
 const TEAL = C.cyan;
 const SPOTIFY_GREEN = "#1ed760";
@@ -108,7 +108,7 @@ export async function renderSpotifyCard({ nowPlaying, tracks }) {
         : `<path d="${cham(bx, by, badgeW, 17, 4)}" fill="none" stroke="${C.line}" stroke-width="1.2"/><text class="h7" x="${bx + badgeW / 2}" y="${by + 12.5}" text-anchor="middle" font-size="10.5" letter-spacing="1.5" fill="${C.muted}">LAST PLAYED</text>`;
       const frame = !first ? "" : live
         ? `<path d="${cham(12, y - 6, W - 24, 56, 8)}" fill="#10284a"/><path class="glow" d="${cham(12, y - 6, W - 24, 56, 8)}" fill="none" stroke="${TEAL}" stroke-width="1.5"/><rect x="12" y="${y + 2}" width="3" height="40" fill="${TEAL}"/>`
-        : `<path d="${cham(12, y - 6, W - 24, 56, 8)}" fill="${C.panel}"/><rect x="12" y="${y + 2}" width="3" height="40" fill="${C.gold}"/>`;
+        : `<path d="${cham(12, y - 6, W - 24, 56, 8)}" fill="${C.panel}" fill-opacity=".85" stroke="${C.edge}" stroke-opacity=".3"/><rect x="12" y="${y + 2}" width="3" height="40" fill="${C.gold}"/>`;
       return `<g class="row" style="animation-delay:${(0.15 + i * 0.12).toFixed(2)}s">
   ${frame}
   ${cover}
@@ -135,13 +135,14 @@ export async function renderSpotifyCard({ nowPlaying, tracks }) {
 @keyframes glow{50%{stroke-opacity:.35}}
 @media (prefers-reduced-motion: reduce){*{animation:none!important}.row{opacity:1}}
 </style>
-<defs><clipPath id="cov" clipPathUnits="objectBoundingBox"><path d="${cham(0, 0, 1, 1, 0.16)}"/></clipPath></defs>
-<path d="${cham(0.75, 0.75, W - 1.5, H - 1.5, 16)}" fill="${C.bg}" stroke="${C.line}" stroke-width="1.5"/>
-<rect x="20" y="16" width="4" height="16" fill="${C.gold}"/>
-<text class="h7" x="32" y="29" font-size="13" letter-spacing="3" fill="${C.cream}">${head}</text>
+<defs>${screenDefs(W, H, 16)}<clipPath id="cov" clipPathUnits="objectBoundingBox"><path d="${cham(0, 0, 1, 1, 0.16)}"/></clipPath></defs>
+${screenBg(W, H, 16)}
+${headBar(12, 12, 220, 24)}
+<text class="h7" x="26" y="29" font-size="13" letter-spacing="3" fill="${C.cream}">${head}</text>
 ${spotifyMark(W - 30, 24, 8, SPOTIFY_GREEN)}
 <text class="h6" x="${W - 44}" y="28" text-anchor="end" font-size="11" letter-spacing="2" fill="${C.muted}">SPOTIFY</text>
 ${rowEls}
+${screenFrame(W, H, 16)}
 </svg>`;
 }
 
